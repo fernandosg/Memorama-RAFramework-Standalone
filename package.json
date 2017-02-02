@@ -1,0 +1,13 @@
+{
+  "name":"Memorama-RAFramework-Standalone",
+  "version":"0.0.1",
+  "author":"Fernando Segura",
+  "description":"Juego de memorama usando JSArtoolkit y ThreeJS",  
+  "devDependencies":{
+    "browserify":"latest",
+    "grunt":"latest",
+    "grunt-browserify":"latest",
+    "grunt-contrib-watch": "^0.6.1",
+    "grunt-shell": "^1.1.2"
+  }
+}

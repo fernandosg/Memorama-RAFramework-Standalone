@@ -149,5 +149,13 @@ Memorama.prototype.fnAfter=function(puntero){
   }
 }
 
+Memorama.prototype.loop=function(){
+	this.renderer.clear();
+	this.videoEscena.update.call(this,this.videoEscena);
+	this.planoEscena.update.call(this,this.planoEscena);
+	this.realidadEscena.update.call(this,this.realidadEscena);
+	this.webcam.update();
+  requestAnimationFrame(this.loop.bind(this));
+}
 
 module.exports=Memorama;

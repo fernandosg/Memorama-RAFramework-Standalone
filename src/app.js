@@ -5,7 +5,11 @@ function Memorama(WIDTH,HEIGHT){
   var Animacion=require('./utils/animacion.js');
   var Escenario=require("./class/escenario.js");
 	var WebcamStream=require("./utils/webcamstream.js");
+  var DetectorAR=require("./utils/detector");
 	this.webcam=new WebcamStream({"WIDTH":this.WIDTH_CANVAS,"HEIGHT":this.HEIGHT_CANVAS});
+	this.detector_ar=DetectorAR(this.webcam.getCanvas());
+	this.detector_ar.init();
+	this.detector_ar.setCameraMatrix(this.realidadEscena.getCamara());
   this.animacion=new Animacion();
   this.planoEscena=new Escenario();
   this.realidadEscena=new Escenario();

@@ -17,7 +17,6 @@ Memorama.prototype.config=function(configuracion){
 
 
 Memorama.prototype.init=function(stage){
-  // IMPORTO LAS CLASES Detector,Labels,DetectorAR,Elemento
   stage.tipo_memorama="animales";
   stage.cantidad_cartas=4;
   mensaje="Bienvenido al ejercicio Memorama<br>";
@@ -89,10 +88,6 @@ Memorama.prototype.init=function(stage){
     y:250/2
   });
   stage.label=texto.crear("HELLO WORLD");
-  //this.anadir(stage.label);
-
-  //stage.label.position.set(-1.5,-6.6,-20);
-
   iniciarKathia(texto);
   clasificarOpcion("memorama","bienvenida");
   clasificarOpcion("memorama","instrucciones");
@@ -128,7 +123,6 @@ Memorama.prototype.logicaMemorama=function(esColisionado,objeto_actual){
           this.detectados.pop();
       }
     }
-    //*/
 }
 
 Memorama.prototype.fnAfter=function(puntero){

@@ -21,9 +21,7 @@ Memorama.prototype.init=function(stage){
   stage.tipo_memorama="animales";
   stage.cantidad_cartas=4;
   mensaje="Bienvenido al ejercicio Memorama<br>";
-
-  //var Mensajes=require("./libs/mensajes");
-  //mensajes=new this.Mensajes(this);
+  this.observador=require("./utils/ManejadorEventos");
   descripcion="El objetivo de este ejercicio, es tocar los pares de cada carta.<br>No te preocupes si no logras en el primer intento, puedes seguir jugando hasta seleccionar cada uno de los pares<br><br>";
   document.getElementById("informacion_nivel").innerHTML=mensaje+descripcion;
   avances=document.createElement("id");

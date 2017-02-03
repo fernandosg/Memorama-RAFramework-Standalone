@@ -37,7 +37,7 @@ Memorama.prototype.anadir=function(obj){
   this.planoEscena.anadir(elemento);
 }
 
-Memorama.prototype.init=function(stage){
+Memorama.prototype.init=function(){
   this.tipo_memorama="animales";
   this.cantidad_cartas=4;
   var mensaje="Bienvenido al ejercicio Memorama<br>";

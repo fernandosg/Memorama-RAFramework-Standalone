@@ -1,5 +1,7 @@
-function Memorama(){
+function Memorama(WIDTH,HEIGHT){
   this.bloqueado=false;
+  this.WIDTH_CANVAS=WIDTH;
+  this.HEIGHT_CANVAS=HEIGHT;
   var Animacion=require('./utils/animacion.js');
   var Escenario=require("./class/escenario.js");
   this.animacion=new Animacion();
@@ -144,5 +146,6 @@ Memorama.prototype.fnAfter=function(puntero){
     this.observador.disparar("colision",puntero,this.logicaMemorama,{stage:this});
   }
 }
+
 
 module.exports=Memorama;

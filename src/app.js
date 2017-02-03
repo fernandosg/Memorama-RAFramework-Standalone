@@ -4,6 +4,8 @@ function Memorama(WIDTH,HEIGHT){
   this.HEIGHT_CANVAS=HEIGHT;
   var Animacion=require('./utils/animacion.js');
   var Escenario=require("./class/escenario.js");
+	var WebcamStream=require("./utils/webcamstream.js");
+	this.webcam=new WebcamStream({"WIDTH":this.WIDTH_CANVAS,"HEIGHT":this.HEIGHT_CANVAS});
   this.animacion=new Animacion();
   this.planoEscena=new Escenario();
   this.realidadEscena=new Escenario();

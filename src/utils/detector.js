@@ -1,5 +1,5 @@
 module.exports=function(canvas_element){
-        var JSARRaster,JSARParameters,detector,result;        
+        var JSARRaster,JSARParameters,detector,result;
         var markers_attach={};
         var threshold=120;
         var markers={};
@@ -12,23 +12,32 @@ module.exports=function(canvas_element){
             detector = new FLARMultiIdMarkerDetector(JSARParameters, 40);
             result = new Float32Array(16);
             detector.setContinueMode(true);
-            JSARParameters.copyCameraMatrix(result, .1, 2000);        
+            JSARParameters.copyCameraMatrix(result, .1, 2000);
+            THREE.Matrix4.prototype.setFromArray = function(m) {
+          		return this.set(
+          			m[0], m[4], m[8], m[12],
+          			m[1], m[5], m[9], m[13],
+          			m[2], m[6], m[10], m[14],
+          			m[3], m[7], m[11], m[15]
+          		);
+          	}
+          }    
             THREE.Object3D.prototype.transformFromArray = function(m) {
                 this.matrix.setFromArray(m);
                 this.matrixWorldNeedsUpdate = true;
             }
         }
 
-        var setCameraMatrix=function(realidadCamera){        
+        var setCameraMatrix=function(realidadCamera){
             realidadCamera.projectionMatrix.setFromArray(result);
         }
-       
+
         function getMarkerNumber(idx) {
             var data = detector.getIdMarkerData(idx);
             if (data.packetLength > 4) {
                 return -1;
-            } 
-                    
+            }
+
             var result=0;
             for (var i = 0; i < data.packetLength; i++ ) {
                 result = (result << 8) | data.getPacketData(i);
@@ -69,41 +78,41 @@ module.exports=function(canvas_element){
                     matriz_encontrada=getTransformMatrix(i);
                     break;
                 }
-            }   
+            }
             return matriz_encontrada;
-        }    
+        }
 
         function isAttached(id){
             return markers_attach[id]!=undefined;
         }
 
         var detectMarker=function(stage){
-            var markerCount = detector.detectMarkerLite(JSARRaster, threshold); 
+            var markerCount = detector.detectMarkerLite(JSARRaster, threshold);
             var marker;
-            if(markerCount>0){ 
+            if(markerCount>0){
                 for(var i=0,marcador_id=-1;i<markerCount;i++){
-                    var marcador_id=getMarkerNumber(i);                    
-                    if(markers[marcador_id]!=undefined){ 
+                    var marcador_id=getMarkerNumber(i);
+                    if(markers[marcador_id]!=undefined){
                         if(markers[marcador_id].puntero!=undefined){
                             markers[marcador_id].puntero.transformFromArray(obtenerMarcador(markerCount,i));
                             markers[marcador_id].puntero.matrixWorldNeedsUpdate=true;
-                        }    
-                        if(!isAttached(marcador_id))                           
-                            markers[marcador_id].detected().call(stage,markers[marcador_id].puntero);                            
-                        else                            
-                            markers_attach[marcador_id]=1;                                                
+                        }
+                        if(!isAttached(marcador_id))
+                            markers[marcador_id].detected().call(stage,markers[marcador_id].puntero);
+                        else
+                            markers_attach[marcador_id]=1;
                     }
-                }                
+                }
                 if(Object.keys(markers_attach).length>0){
                     var count=0;
                     for(var id in markers_attach){
                         count+=markers_attach[id];
                         markers_attach[id]=0;
                     }
-                    if(count==Object.keys(markers_attach).length)//If all the markers attached are not detected, then the event is not executed                        
-                        rootMarker.detected().call(stage,rootMarker.puntero);                      
-                }   
-                return true;            
+                    if(count==Object.keys(markers_attach).length)//If all the markers attached are not detected, then the event is not executed
+                        rootMarker.detected().call(stage,rootMarker.puntero);
+                }
+                return true;
             }
             return false;
         }
@@ -112,7 +121,7 @@ module.exports=function(canvas_element){
         var attach=function(markers_to_attach){
             var marker_list=Object.keys(markers);
             if(marker_list.length>0)
-                rootMarker=markers[marker_list.pop()];        
+                rootMarker=markers[marker_list.pop()];
             markers_attach[rootMarker.id]=0;
             for(var i=0,length=markers_to_attach.length;i<length;i++){
                 this.addMarker(markers_to_attach[i]);

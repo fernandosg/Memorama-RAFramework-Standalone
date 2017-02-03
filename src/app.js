@@ -38,49 +38,49 @@ Memorama.prototype.anadir=function(obj){
 }
 
 Memorama.prototype.init=function(stage){
-  stage.tipo_memorama="animales";
-  stage.cantidad_cartas=4;
-  mensaje="Bienvenido al ejercicio Memorama<br>";
+  this.tipo_memorama="animales";
+  this.cantidad_cartas=4;
+  var mensaje="Bienvenido al ejercicio Memorama<br>";
   this.observador=require("./utils/ManejadorEventos");
-  descripcion="El objetivo de este ejercicio, es tocar los pares de cada carta.<br>No te preocupes si no logras en el primer intento, puedes seguir jugando hasta seleccionar cada uno de los pares<br><br>";
+  var descripcion="El objetivo de este ejercicio, es tocar los pares de cada carta.<br>No te preocupes si no logras en el primer intento, puedes seguir jugando hasta seleccionar cada uno de los pares<br><br>";
   document.getElementById("informacion_nivel").innerHTML=mensaje+descripcion;
-  avances=document.createElement("id");
+  var avances=document.createElement("id");
   avances.id="avances_memorama";
   document.getElementById("informacion_nivel").appendChild(avances);
   var Labels=require("../../src/class/labels");
-  stage.detectados=[];
+  this.detectados=[];
 
   // CREACION DEL ELEMENTO ACIERTO (LA IMAGEN DE LA ESTRELLA)
-  stage.indicador_acierto=new this.Elemento(500,500,new THREE.PlaneGeometry(500,500));
-  stage.indicador_acierto.init();
-  stage.indicador_acierto.definir("./assets/img/scale/star.png",stage.indicador_acierto);
-  stage.indicador_acierto.position({x:0,y:0,z:-2500});
-  this.anadir(stage.indicador_acierto.get());
+  this.indicador_acierto=new this.Elemento(500,500,new THREE.PlaneGeometry(500,500));
+  this.indicador_acierto.init();
+  this.indicador_acierto.definir("./assets/img/scale/star.png",this.indicador_acierto);
+  this.indicador_acierto.position({x:0,y:0,z:-2500});
+  this.anadir(this.indicador_acierto.get());
 
   // CREACION DEL ELEMENTO ERROR (LA IMAGEN DE LA X)
-  stage.indicador_error=new this.Elemento(500,500,new THREE.PlaneGeometry(500,500));
-  stage.indicador_error.init();
-  stage.indicador_error.definir("./assets/img/scale/error.png",stage.indicador_error);
-  stage.indicador_error.position({x:0,y:0,z:-2500});
-  this.anadir(stage.indicador_error.get());
+  this.indicador_error=new this.Elemento(500,500,new THREE.PlaneGeometry(500,500));
+  this.indicador_error.init();
+  this.indicador_error.definir("./assets/img/scale/error.png",this.indicador_error);
+  this.indicador_error.position({x:0,y:0,z:-2500});
+  this.anadir(this.indicador_error.get());
 
   ///*
   // CREACION DE LAS CARTAS COMO ELEMENTOS
   var cartas={animales:["medusa","ballena","cangrejo","pato"],cocina:["pinzas","refractorio","sarten","rallador"]};
-  stage.objetos=[]
-  limite_renglon=Math.floor(stage.cantidad_cartas/2)+1;
-  for(var i=1,cont_fila=1,pos_y=-100,fila_pos=i,pos_x=-200;i<=stage.cantidad_cartas;i++,pos_y=((i%2!=0) ? pos_y+130 : pos_y) ,fila_pos=((fila_pos>=limite_renglon-1) ? 1 : fila_pos+1),pos_x=(i%2==0 ? 200 : -200)){
+  this.objetos=[]
+  limite_renglon=Math.floor(this.cantidad_cartas/2)+1;
+  for(var i=1,cont_fila=1,pos_y=-100,fila_pos=i,pos_x=-200;i<=this.cantidad_cartas;i++,pos_y=((i%2!=0) ? pos_y+130 : pos_y) ,fila_pos=((fila_pos>=limite_renglon-1) ? 1 : fila_pos+1),pos_x=(i%2==0 ? 200 : -200)){
     var elemento=new this.Elemento(120,120,new THREE.PlaneGeometry(120,120));
     elemento.init();
-    elemento.etiqueta(cartas[stage.tipo_memorama][fila_pos-1]);
+    elemento.etiqueta(cartas[this.tipo_memorama][fila_pos-1]);
     elemento.scale(.7,.7);
     elemento.position({x:pos_x,y:pos_y,z:-600});
-    stage.objetos.push(elemento);
+    this.objetos.push(elemento);
     this.anadir(elemento.get());
-    stage.objetos[stage.objetos.length-1].definirCaras("./assets/img/memorama/sin_voltear.jpg","./assets/img/memorama/"+stage.tipo_memorama+"/cart"+fila_pos+"_"+cartas[stage.tipo_memorama][fila_pos-1]+".jpg",
-    stage.objetos[stage.objetos.length-1]);
+    this.objetos[this.objetos.length-1].definirCaras("./assets/img/memorama/sin_voltear.jpg","./assets/img/memorama/"+this.tipo_memorama+"/cart"+fila_pos+"_"+cartas[this.tipo_memorama][fila_pos-1]+".jpg",
+    this.objetos[this.objetos.length-1]);
     capa_elemento=document.createElement("div");
-    this.observador.suscribir("colision",stage.objetos[stage.objetos.length-1]);
+    this.observador.suscribir("colision",this.objetos[this.objetos.length-1]);
   }
   //*/
 
@@ -94,7 +94,7 @@ Memorama.prototype.init=function(stage){
   this.puntero.position.z=-1;
   this.puntero.matrixAutoUpdate = false;
   this.puntero.visible=false;
-  this.anadirMarcador({id:16,callback:stage.fnAfter,puntero:this.puntero});
+  this.anadirMarcador({id:16,callback:this.fnAfter,puntero:this.puntero});
   //CREACION DE KATHIA
   document.getElementById("kathia").appendChild(kathia_renderer.view);
 
@@ -108,16 +108,16 @@ Memorama.prototype.init=function(stage){
     x:250/2,
     y:250/2
   });
-  stage.label=texto.crear("HELLO WORLD");
+  this.label=texto.crear("HELLO WORLD");
   iniciarKathia(texto);
   clasificarOpcion("memorama","bienvenida");
   clasificarOpcion("memorama","instrucciones");
 }
 
 Memorama.prototype.loop=function(stage){
-  for(var i=0;i<stage.objetos.length;i++)
-  stage.objetos[i].actualizar();
-  stage.label.material.map.needsUpdate=true;
+  for(var i=0;i<this.objetos.length;i++)
+  this.objetos[i].actualizar();
+  this.label.material.map.needsUpdate=true;
   if(!pausado_kathia)
   animate();
 }

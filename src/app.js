@@ -194,7 +194,6 @@ Memorama.prototype.calibracion=function(){
         calibrar=false;
         threshold_conteo=0;
         threshold_total=0;
-        stage.Siguiente(this,stage);//PARTE PARA INDICAR LOS OBJETOS A COLISIONAR PARA VER SI FUNCIONA BIE
       }
       calibrar=false;
     }
@@ -202,10 +201,10 @@ Memorama.prototype.calibracion=function(){
       this.allowDetect(true);
     else if(this.puntos_encontrados){
       document.getElementById("informacion_calibrar").setAttribute("style","display:none;");
-      stage.detener=true;
+      this.detener_calibracion=true;
     }
-    if(stage.detener)
-     this.finishStage();
+    if(this.detener_calibracion)
+     this.init();
 }
 
 Memorama.prototype.allowDetect=function(bool){

@@ -200,6 +200,13 @@ Memorama.prototype.calibracion=function(){
     this.loop();
 }
 
+Memorama.prototype.anadirMarcador=function(marcador){
+	this.detector_ar.addMarker.call(this,marcador);
+	if(marcador.puntero!=undefined)
+	this.realidadEscena.anadir(marcador.puntero);
+	return this;
+}
+
 Memorama.prototype.allowDetect=function(bool){
   this.detecting_marker=bool;
 }

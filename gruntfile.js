@@ -2,13 +2,13 @@ module.exports = function (grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
     watch: {
-      files: ['js/*.js',"js/stages/*.js","src/class/*.js"],
+      files: ['src/*.js',"src/class/*.js","src/utils/*.js"],
       tasks: ['browserify']
     },
     browserify: {
       dist: {
         files: {
-          'dist/js/bundle.js': ['src/class/*.js','src/main.js'],
+          'dist/js/bundle.js': ['src/class/*.js','src/utils/*.js','src/*.js'],
         }
       }
     }

@@ -9,17 +9,19 @@ function Memorama(WIDTH,HEIGHT){
 	this.webcam=new WebcamStream({"WIDTH":this.WIDTH_CANVAS,"HEIGHT":this.HEIGHT_CANVAS});
 	this.detector_ar=DetectorAR(this.webcam.getCanvas());
 	this.detector_ar.init();
-	this.detector_ar.setCameraMatrix(this.realidadEscena.getCamara());
   this.animacion=new Animacion();
   this.planoEscena=new Escenario();
   this.realidadEscena=new Escenario();
   this.videoEscena=new Escenario();
   this.planoEscena.initCamara(function(){
-    this.camara=new THREE.PerspectiveCamera();//THREE.Camera();
-    this.camara.near=0.1;
-    this.camara.far=2000;
-    this.camara.updateProjectionMatrix();
-  });
+		this.camara=new THREE.PerspectiveCamera();//THREE.Camera();
+		this.camara.near=0.1;
+		this.camara.far=2000;
+		this.camara.updateProjectionMatrix();
+	});
+	this.realidadEscena.initCamara();
+	this.videoEscena.initCamara();
+	this.detector_ar.setCameraMatrix(this.realidadEscena.getCamara());  
   calibrar=false;
   this.calibracion_correcta=false;
 }

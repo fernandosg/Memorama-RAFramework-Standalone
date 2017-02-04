@@ -20,6 +20,8 @@ function Memorama(WIDTH,HEIGHT){
     this.camara.far=2000;
     this.camara.updateProjectionMatrix();
   });
+  calibrar=false;
+  this.calibracion_correcta=false;
 }
 
 Memorama.prototype.bloquear=function(){
@@ -153,12 +155,50 @@ Memorama.prototype.fnAfter=function(puntero){
   }
 }
 
+Memorama.prototype.calibracion=function(){
+    if(calibrar){
+      threshold_total=0;
+      threshold_conteo=0;
+      for(var i=0;i<300;i++){
+        this.detector_ar.cambiarThreshold(i);
+        if(this.detector_ar.detectMarker(stage)){
+          threshold_total+=i;
+          threshold_conteo++;
+        }
+      }
+      if(threshold_conteo>0){
+        threshold_total=threshold_total/threshold_conteo;
+        this.detector_ar.cambiarThreshold(threshold_total);
+        this.calibracion_correcta=true;
+        calibrar=false;
+        threshold_conteo=0;
+        threshold_total=0;
+        stage.Siguiente(this,stage);//PARTE PARA INDICAR LOS OBJETOS A COLISIONAR PARA VER SI FUNCIONA BIE
+      }
+      calibrar=false;
+    }
+    if(this.calibarcion_correcta && !this.puntos_encontrados)
+      this.allowDetect(true);
+    else if(this.puntos_encontrados){
+      document.getElementById("informacion_calibrar").setAttribute("style","display:none;");
+      stage.detener=true;
+    }
+    if(stage.detener)
+     this.finishStage();
+}
+
+Memorama.prototype.allowDetect=function(bool){
+  this.detecting_marker=bool;
+}
+
 Memorama.prototype.loop=function(){
 	this.renderer.clear();
 	this.videoEscena.update.call(this,this.videoEscena);
 	this.planoEscena.update.call(this,this.planoEscena);
 	this.realidadEscena.update.call(this,this.realidadEscena);
 	this.webcam.update();
+  if(this.detecting_marker)
+    this.detector_ar.detectMarker(this);
   requestAnimationFrame(this.loop.bind(this));
 }
 

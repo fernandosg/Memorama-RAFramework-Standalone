@@ -112,15 +112,9 @@ Memorama.prototype.init=function(){
   iniciarKathia(texto);
   clasificarOpcion("memorama","bienvenida");
   clasificarOpcion("memorama","instrucciones");
+  this.loop();
 }
 
-Memorama.prototype.loop=function(stage){
-  for(var i=0;i<this.objetos.length;i++)
-  this.objetos[i].actualizar();
-  this.label.material.map.needsUpdate=true;
-  if(!pausado_kathia)
-  animate();
-}
 Memorama.prototype.logicaMemorama=function(esColisionado,objeto_actual){
   if(esColisionado){
     if(this.detectados.length==1 && this.detectados[0].igualA(objeto_actual)){
@@ -203,6 +197,7 @@ Memorama.prototype.calibracion=function(){
     }
     if(this.detener_calibracion)
      this.init();
+    this.loop();
 }
 
 Memorama.prototype.allowDetect=function(bool){
@@ -217,6 +212,11 @@ Memorama.prototype.loop=function(){
 	this.webcam.update();
   if(this.detecting_marker)
     this.detector_ar.detectMarker(this);
+  for(var i=0;i<this.objetos.length;i++)
+    this.objetos[i].actualizar();
+  this.label.material.map.needsUpdate=true;
+  if(!pausado_kathia)
+    animate();
   requestAnimationFrame(this.loop.bind(this));
 }
 

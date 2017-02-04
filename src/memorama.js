@@ -2,6 +2,9 @@ function Memorama(WIDTH,HEIGHT){
   this.bloqueado=false;
   this.WIDTH_CANVAS=WIDTH;
   this.HEIGHT_CANVAS=HEIGHT;
+}
+
+Memorama.prototype.start=function(){
   var Animacion=require('./utils/animacion.js');
   var Escenario=require("./class/escenario.js");
 	var WebcamStream=require("./utils/webcamstream.js");
@@ -9,7 +12,8 @@ function Memorama(WIDTH,HEIGHT){
 	this.webcam=new WebcamStream({"WIDTH":this.WIDTH_CANVAS,"HEIGHT":this.HEIGHT_CANVAS});
 	this.renderer=new THREE.WebGLRenderer();
 	this.renderer.autoClear = false;
-	this.renderer.setSize(WIDTH,HEIGHT);
+	this.renderer.setSize(this.WIDTH_CANVAS,this.HEIGHT_CANVAS);
+	document.getElementById("ra").appendChild(this.renderer.domElement);
 	this.detector_ar=DetectorAR(this.webcam.getCanvas());
 	this.detector_ar.init();
   this.animacion=new Animacion();
@@ -24,10 +28,22 @@ function Memorama(WIDTH,HEIGHT){
 	});
 	this.realidadEscena.initCamara();
 	this.videoEscena.initCamara();
+  this.videoEscena.anadir(this.webcam.getElemento());
 	this.detector_ar.setCameraMatrix(this.realidadEscena.getCamara());
   calibrar=false;
   this.calibracion_correcta=false;
   this.objetos=[];
+  var Labels=require("./class/labels");
+  texto=Labels(250,250);
+  texto.init();
+  texto.definir({
+    color:'#ff0000',
+    alineacion:'center',
+    tiporafia:'200px Arial',
+    x:250/2,
+    y:250/2
+  });
+  this.label=texto.crear("HELLO WORLD");
 }
 
 Memorama.prototype.bloquear=function(){
@@ -53,7 +69,6 @@ Memorama.prototype.init=function(){
   var avances=document.createElement("id");
   avances.id="avances_memorama";
   document.getElementById("informacion_nivel").appendChild(avances);
-  var Labels=require("./class/labels");
   this.detectados=[];
 
   // CREACION DEL ELEMENTO ACIERTO (LA IMAGEN DE LA ESTRELLA)
@@ -104,16 +119,7 @@ Memorama.prototype.init=function(){
   document.getElementById("kathia").appendChild(kathia_renderer.view);
 
   //CREACION DE LA ETIQUETA DONDE SE ESCRIBE LA RESPUESTA DE KATHIA
-  texto=Labels(250,250);
-  texto.init();
-  texto.definir({
-    color:'#ff0000',
-    alineacion:'center',
-    tiporafia:'200px Arial',
-    x:250/2,
-    y:250/2
-  });
-  this.label=texto.crear("HELLO WORLD");
+
   iniciarKathia(texto);
   clasificarOpcion("memorama","bienvenida");
   clasificarOpcion("memorama","instrucciones");

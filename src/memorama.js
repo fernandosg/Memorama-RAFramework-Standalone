@@ -47,7 +47,7 @@ Memorama.prototype.init=function(){
   var avances=document.createElement("id");
   avances.id="avances_memorama";
   document.getElementById("informacion_nivel").appendChild(avances);
-  var Labels=require("../../src/class/labels");
+  var Labels=require("./class/labels");
   this.detectados=[];
 
   // CREACION DEL ELEMENTO ACIERTO (LA IMAGEN DE LA ESTRELLA)

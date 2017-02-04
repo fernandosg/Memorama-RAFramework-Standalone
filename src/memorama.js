@@ -7,6 +7,9 @@ function Memorama(WIDTH,HEIGHT){
 	var WebcamStream=require("./utils/webcamstream.js");
   var DetectorAR=require("./utils/detector");
 	this.webcam=new WebcamStream({"WIDTH":this.WIDTH_CANVAS,"HEIGHT":this.HEIGHT_CANVAS});
+	this.renderer=new THREE.WebGLRenderer();
+	this.renderer.autoClear = false;
+	this.renderer.setSize(WIDTH,HEIGHT);
 	this.detector_ar=DetectorAR(this.webcam.getCanvas());
 	this.detector_ar.init();
   this.animacion=new Animacion();
@@ -21,9 +24,10 @@ function Memorama(WIDTH,HEIGHT){
 	});
 	this.realidadEscena.initCamara();
 	this.videoEscena.initCamara();
-	this.detector_ar.setCameraMatrix(this.realidadEscena.getCamara());  
+	this.detector_ar.setCameraMatrix(this.realidadEscena.getCamara());
   calibrar=false;
   this.calibracion_correcta=false;
+  this.objetos=[];
 }
 
 Memorama.prototype.bloquear=function(){
@@ -69,7 +73,6 @@ Memorama.prototype.init=function(){
   ///*
   // CREACION DE LAS CARTAS COMO ELEMENTOS
   var cartas={animales:["medusa","ballena","cangrejo","pato"],cocina:["pinzas","refractorio","sarten","rallador"]};
-  this.objetos=[]
   limite_renglon=Math.floor(this.cantidad_cartas/2)+1;
   for(var i=1,cont_fila=1,pos_y=-100,fila_pos=i,pos_x=-200;i<=this.cantidad_cartas;i++,pos_y=((i%2!=0) ? pos_y+130 : pos_y) ,fila_pos=((fila_pos>=limite_renglon-1) ? 1 : fila_pos+1),pos_x=(i%2==0 ? 200 : -200)){
     var elemento=new this.Elemento(120,120,new THREE.PlaneGeometry(120,120));

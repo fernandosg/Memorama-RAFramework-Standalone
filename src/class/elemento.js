@@ -50,7 +50,7 @@ Elemento.prototype.calculoOrigen=function(){
 Elemento.prototype.cambiarVisible=function(){
     this.elemento_raiz.visible=this.elemento_raiz.visible ? false : true;
 }
-        
+
 
 Elemento.prototype.definirBackground=function(color){
     color_t=new THREE.Color(color);
@@ -267,7 +267,6 @@ Elemento.prototype.voltear=function(animacion){
     }
 }
 
-
 Elemento.prototype.getNombre=function(){
     return this.nombre;
 }
@@ -280,25 +279,4 @@ Elemento.prototype.igualA=function(objeto){
     return this.elemento_raiz.id==objeto.get().id;
 }
 
-Elemento.prototype.getOrigen=function(){
-    return origen;
-}
-
-Elemento.prototype.getUmbral=function(){
-    return this.umbral_colision;
-}
-
-
-
-Elemento.prototype.actualizarPosicionesYescala=function(posicion,escala){
-    this.posiciones.x=posicion.x;
-    this.posiciones.y=posicion.y;
-    this.posiciones.z=posicion.z;
-    this.escalas.x=escala.x;
-    this.escalas.y=escala.y;
-    this.escalas.z=escala.z;
-    this.elemento_raiz.position=posicion;
-    this.elemento_raiz.scale=escala;
-    this.calculoOrigen();
-}
 module.exports=Elemento;

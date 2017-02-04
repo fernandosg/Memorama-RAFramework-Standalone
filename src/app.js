@@ -32,8 +32,6 @@ Memorama.prototype.desbloquear=function(){
   this.bloqueado=true;
 }
 
-Memorama.prototype.config=function(configuracion){
-}
 
 Memorama.prototype.anadir=function(obj){
   this.planoEscena.anadir(elemento);

@@ -2,6 +2,10 @@ function Memorama(WIDTH,HEIGHT){
   this.bloqueado=false;
   this.WIDTH_CANVAS=WIDTH;
   this.HEIGHT_CANVAS=HEIGHT;
+  calibrar=false;
+  calibracion_correcta=false;
+  puntos_encontrados=false;
+  inicio_calibracion=false;
 }
 
 Memorama.prototype.start=function(){
@@ -10,7 +14,7 @@ Memorama.prototype.start=function(){
 	var WebcamStream=require("./utils/webcamstream.js");
   var DetectorAR=require("./utils/detector");
   this.Elemento=require("./class/elemento.js");
-  var Observador=require("./utils/ManejadorEventos.js")
+  var Observador=require("./utils/ManejadorEventos.js");
   this.observador=new Observador();
 	this.webcam=new WebcamStream({"WIDTH":this.WIDTH_CANVAS,"HEIGHT":this.HEIGHT_CANVAS});
 	this.renderer=new THREE.WebGLRenderer();
@@ -29,12 +33,12 @@ Memorama.prototype.start=function(){
 		this.camara.far=2000;
 		this.camara.updateProjectionMatrix();
 	});
+  this.cantidad_cartas=4;
 	this.realidadEscena.initCamara();
 	this.videoEscena.initCamara();
   this.videoEscena.anadir(this.webcam.getElemento());
 	this.detector_ar.setCameraMatrix(this.realidadEscena.getCamara());
-  calibrar=false;
-  this.calibracion_correcta=false;
+  calibracion_correcta=false;
   this.objetos=[];
   var Labels=require("./class/labels");
   texto=Labels(250,250);
@@ -64,7 +68,6 @@ Memorama.prototype.anadir=function(obj){
 
 Memorama.prototype.init=function(){
   this.tipo_memorama="animales";
-  this.cantidad_cartas=4;
   var mensaje="Bienvenido al ejercicio Memorama<br>";
   this.observador=require("./utils/ManejadorEventos");
   var descripcion="El objetivo de este ejercicio, es tocar los pares de cada carta.<br>No te preocupes si no logras en el primer intento, puedes seguir jugando hasta seleccionar cada uno de los pares<br><br>";
@@ -196,22 +199,28 @@ Memorama.prototype.calibracion=function(){
       if(threshold_conteo>0){
         threshold_total=threshold_total/threshold_conteo;
         this.detector_ar.cambiarThreshold(threshold_total);
-        this.calibracion_correcta=true;
+        calibracion_correcta=true;
         calibrar=false;
         threshold_conteo=0;
         threshold_total=0;
       }
       calibrar=false;
     }
-    if(this.calibarcion_correcta && !this.puntos_encontrados)
+    if(calibracion_correcta && !puntos_encontrados)
       this.allowDetect(true);
-    else if(this.puntos_encontrados){
+    else if(puntos_encontrados){
       document.getElementById("informacion_calibrar").setAttribute("style","display:none;");
       this.detener_calibracion=true;
     }
     if(this.detener_calibracion)
      this.init();
-    this.loop();
+    if(!inicio_calibracion){
+      inicio_calibracion=true;
+      document.getElementById("calibrar").addEventListener("click",function(){
+        this.inicioCalibarcion();
+      }.bind(this))
+      this.loop();
+    }
 }
 
 Memorama.prototype.anadirMarcador=function(marcador){
@@ -238,6 +247,8 @@ Memorama.prototype.loop=function(){
   this.label.material.map.needsUpdate=true;
   if(!pausado_kathia)
     animate();
+  if(!this.detener_calibracion)
+    this.calibracion();
   requestAnimationFrame(this.loop.bind(this));
 }
 

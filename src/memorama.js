@@ -59,7 +59,7 @@ Memorama.prototype.desbloquear=function(){
 
 
 Memorama.prototype.anadir=function(obj){
-  this.planoEscena.anadir(elemento);
+  this.planoEscena.anadir(obj);
 }
 
 Memorama.prototype.init=function(){

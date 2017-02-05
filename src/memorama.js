@@ -9,6 +9,7 @@ Memorama.prototype.start=function(){
   var Escenario=require("./class/escenario.js");
 	var WebcamStream=require("./utils/webcamstream.js");
   var DetectorAR=require("./utils/detector");
+  var Elemento=require("./class/elemento.js");
 	this.webcam=new WebcamStream({"WIDTH":this.WIDTH_CANVAS,"HEIGHT":this.HEIGHT_CANVAS});
 	this.renderer=new THREE.WebGLRenderer();
 	this.renderer.autoClear = false;

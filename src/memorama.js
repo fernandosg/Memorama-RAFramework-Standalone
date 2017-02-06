@@ -51,6 +51,16 @@ Memorama.prototype.start=function(){
     y:250/2
   });
   this.label=texto.crear("HELLO WORLD");
+  var mano_obj=new this.Elemento(60,60,new THREE.PlaneGeometry(60,60));
+  mano_obj.init();
+  mano_obj.etiqueta("Detector");
+  mano_obj.definir("../../assets/img/mano_escala.png",mano_obj);
+  this.puntero=new THREE.Object3D();
+  this.puntero.add(mano_obj.get());
+  this.puntero.position.z=-1;
+  this.puntero.matrixAutoUpdate = false;
+  this.puntero.visible=false;
+  this.anadirMarcador({id:1,callback:this.fnAfter,puntero:this.puntero});
 }
 
 Memorama.prototype.bloquear=function(){
@@ -191,7 +201,7 @@ Memorama.prototype.calibracion=function(){
       threshold_conteo=0;
       for(var i=0;i<300;i++){
         this.detector_ar.cambiarThreshold(i);
-        if(this.detector_ar.detectMarker(stage)){
+        if(this.detector_ar.detectMarker(this)){
           threshold_total+=i;
           threshold_conteo++;
         }
@@ -205,12 +215,12 @@ Memorama.prototype.calibracion=function(){
         threshold_total=0;
       }
       calibrar=false;
-    }
-    if(calibracion_correcta && !puntos_encontrados)
-      this.allowDetect(true);
-    else if(puntos_encontrados){
-      document.getElementById("informacion_calibrar").setAttribute("style","display:none;");
-      this.detener_calibracion=true;
+      if(calibracion_correcta && !puntos_encontrados){
+        this.allowDetect(true);
+      }else if(puntos_encontrados){
+        document.getElementById("informacion_calibrar").setAttribute("style","display:none;");
+        this.detener_calibracion=true;
+      }
     }
     if(this.detener_calibracion)
      this.init();
@@ -218,6 +228,7 @@ Memorama.prototype.calibracion=function(){
       inicio_calibracion=true;
       document.getElementById("calibrar").addEventListener("click",function(){
         this.inicioCalibarcion();
+        calibrar=true;
       }.bind(this))
       this.loop();
     }

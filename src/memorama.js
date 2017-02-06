@@ -6,38 +6,39 @@ function Memorama(WIDTH,HEIGHT){
   calibracion_correcta=false;
   puntos_encontrados=false;
   inicio_calibracion=false;
+  this.pos_elegido=0;
 }
 
 Memorama.prototype.start=function(){
   var Animacion=require('./utils/animacion.js');
   var Escenario=require("./class/escenario.js");
-	var WebcamStream=require("./utils/webcamstream.js");
+  var WebcamStream=require("./utils/webcamstream.js");
   var DetectorAR=require("./utils/detector");
   this.Elemento=require("./class/elemento.js");
   var Observador=require("./utils/ManejadorEventos.js");
   this.observador=new Observador();
-	this.webcam=new WebcamStream({"WIDTH":this.WIDTH_CANVAS,"HEIGHT":this.HEIGHT_CANVAS});
-	this.renderer=new THREE.WebGLRenderer();
-	this.renderer.autoClear = false;
-	this.renderer.setSize(this.WIDTH_CANVAS,this.HEIGHT_CANVAS);
-	document.getElementById("ra").appendChild(this.renderer.domElement);
-	this.detector_ar=DetectorAR(this.webcam.getCanvas());
-	this.detector_ar.init();
+  this.webcam=new WebcamStream({"WIDTH":this.WIDTH_CANVAS,"HEIGHT":this.HEIGHT_CANVAS});
+  this.renderer=new THREE.WebGLRenderer();
+  this.renderer.autoClear = false;
+  this.renderer.setSize(this.WIDTH_CANVAS,this.HEIGHT_CANVAS);
+  document.getElementById("ra").appendChild(this.renderer.domElement);
+  this.detector_ar=DetectorAR(this.webcam.getCanvas());
+  this.detector_ar.init();
   this.animacion=new Animacion();
   this.planoEscena=new Escenario();
   this.realidadEscena=new Escenario();
   this.videoEscena=new Escenario();
   this.planoEscena.initCamara(function(){
-		this.camara=new THREE.PerspectiveCamera();//THREE.Camera();
-		this.camara.near=0.1;
-		this.camara.far=2000;
-		this.camara.updateProjectionMatrix();
-	});
+    this.camara=new THREE.PerspectiveCamera();//THREE.Camera();
+    this.camara.near=0.1;
+    this.camara.far=2000;
+    this.camara.updateProjectionMatrix();
+  });
   this.cantidad_cartas=4;
-	this.realidadEscena.initCamara();
-	this.videoEscena.initCamara();
+  this.realidadEscena.initCamara();
+  this.videoEscena.initCamara();
   this.videoEscena.anadir(this.webcam.getElemento());
-	this.detector_ar.setCameraMatrix(this.realidadEscena.getCamara());
+  this.detector_ar.setCameraMatrix(this.realidadEscena.getCamara());
   calibracion_correcta=false;
   this.objetos=[];
   var Labels=require("./class/labels");
@@ -60,7 +61,7 @@ Memorama.prototype.start=function(){
   this.puntero.position.z=-1;
   this.puntero.matrixAutoUpdate = false;
   this.puntero.visible=false;
-  this.anadirMarcador({id:1,callback:this.fnAfter,puntero:this.puntero});
+  this.anadirMarcador({id:1,callback:this.logicaCalibracion,puntero:this.puntero});
 }
 
 Memorama.prototype.bloquear=function(){
@@ -174,6 +175,21 @@ Memorama.prototype.fnAfter=function(puntero){
   }
 }
 
+Memorama.prototype.logicaCalibracion=function(puntero){
+  if(puntero.getWorldPosition().z>300 && puntero.getWorldPosition().z<=500){
+    puntero.visible=true;
+    this.observador.dispararParticular("colision",this.objetos[this.pos_elegido],puntero,function(esColision,extras){
+      if(esColision){
+        extras["observador"].baja("colision",this.objetos[this.pos_elegido]);
+        this.pos_elegido++;
+        document.getElementById("colorSelect").style.backgroundColor=this.colores[this.pos_elegido];
+        if(this.pos_elegido==this.cantidad_cartas)
+        this.puntos_encontrados=true;
+      }
+    }.bind(this));//*/
+  }
+}
+
 Memorama.prototype.inicioCalibarcion=function(){
   this.objetos=[];
   this.colores=["rgb(34, 208, 6)","rgb(25, 11, 228)","rgb(244, 6, 6)","rgb(244, 232, 6)"];
@@ -182,63 +198,63 @@ Memorama.prototype.inicioCalibarcion=function(){
   limite_renglon=Math.floor(this.cantidad_cartas/2)+1;
   tamano_elemento=80;
   margenes_espacio=(this.WIDTH_CANVAS-(tamano_elemento*limite_renglon))/limite_renglon;
-   for(var x=1,cont_fila=1,pos_y=-100,fila_pos=x,pos_x=-200;x<=this.cantidad_cartas;x++,pos_y=((fila_pos>=limite_renglon-1) ? pos_y+120+50 : pos_y) ,fila_pos=((fila_pos>=limite_renglon-1) ? 1 : fila_pos+1),pos_x=(fila_pos==1 ? -200 : (pos_x+margenes_espacio+tamano_elemento))){
-      var elemento=new this.Elemento(tamano_elemento,tamano_elemento,new THREE.PlaneGeometry(tamano_elemento,tamano_elemento));
-      elemento.init();
-      elemento.etiqueta(this.colores[x-1]);
-      elemento.position({x:pos_x,y:pos_y,z:-600});
-      elemento.calculoOrigen();
-      this.objetos.push(elemento);
-      elemento.definirBackground(this.colores[x-1]);
-      this.observador.suscribir("colision",this.objetos[this.objetos.length-1]);
-      this.anadir(elemento.get());
+  for(var x=1,cont_fila=1,pos_y=-100,fila_pos=x,pos_x=-200;x<=this.cantidad_cartas;x++,pos_y=((fila_pos>=limite_renglon-1) ? pos_y+120+50 : pos_y) ,fila_pos=((fila_pos>=limite_renglon-1) ? 1 : fila_pos+1),pos_x=(fila_pos==1 ? -200 : (pos_x+margenes_espacio+tamano_elemento))){
+    var elemento=new this.Elemento(tamano_elemento,tamano_elemento,new THREE.PlaneGeometry(tamano_elemento,tamano_elemento));
+    elemento.init();
+    elemento.etiqueta(this.colores[x-1]);
+    elemento.position({x:pos_x,y:pos_y,z:-600});
+    elemento.calculoOrigen();
+    this.objetos.push(elemento);
+    elemento.definirBackground(this.colores[x-1]);
+    this.observador.suscribir("colision",this.objetos[this.objetos.length-1]);
+    this.anadir(elemento.get());
   }
 }
 
 Memorama.prototype.calibracion=function(){
-    if(calibrar){
-      threshold_total=0;
-      threshold_conteo=0;
-      for(var i=0;i<300;i++){
-        this.detector_ar.cambiarThreshold(i);
-        if(this.detector_ar.detectMarker(this)){
-          threshold_total+=i;
-          threshold_conteo++;
-        }
+  if(calibrar){
+    threshold_total=0;
+    threshold_conteo=0;
+    for(var i=0;i<300;i++){
+      this.detector_ar.cambiarThreshold(i);
+      if(this.detector_ar.detectMarker(this)){
+        threshold_total+=i;
+        threshold_conteo++;
       }
-      if(threshold_conteo>0){
-        threshold_total=threshold_total/threshold_conteo;
-        this.detector_ar.cambiarThreshold(threshold_total);
-        calibracion_correcta=true;
-        calibrar=false;
-        threshold_conteo=0;
-        threshold_total=0;
-      }
+    }
+    if(threshold_conteo>0){
+      threshold_total=threshold_total/threshold_conteo;
+      this.detector_ar.cambiarThreshold(threshold_total);
+      calibracion_correcta=true;
       calibrar=false;
-      if(calibracion_correcta && !puntos_encontrados){
-        this.allowDetect(true);
-      }else if(puntos_encontrados){
-        document.getElementById("informacion_calibrar").setAttribute("style","display:none;");
-        this.detener_calibracion=true;
-      }
+      threshold_conteo=0;
+      threshold_total=0;
     }
-    if(this.detener_calibracion)
-     this.init();
-    if(!inicio_calibracion){
-      inicio_calibracion=true;
-      document.getElementById("calibrar").addEventListener("click",function(){
-        this.inicioCalibarcion();
-        calibrar=true;
-      }.bind(this))
-      this.loop();
+    calibrar=false;
+    if(calibracion_correcta && !puntos_encontrados){
+      this.allowDetect(true);
+    }else if(puntos_encontrados){
+      document.getElementById("informacion_calibrar").setAttribute("style","display:none;");
+      this.detener_calibracion=true;
     }
+  }
+  if(this.detener_calibracion)
+  this.init();
+  if(!inicio_calibracion){
+    inicio_calibracion=true;
+    document.getElementById("calibrar").addEventListener("click",function(){
+      this.inicioCalibarcion();
+      calibrar=true;
+    }.bind(this))
+    this.loop();
+  }
 }
 
 Memorama.prototype.anadirMarcador=function(marcador){
-	this.detector_ar.addMarker.call(this,marcador);
-	if(marcador.puntero!=undefined)
-	this.realidadEscena.anadir(marcador.puntero);
-	return this;
+  this.detector_ar.addMarker.call(this,marcador);
+  if(marcador.puntero!=undefined)
+  this.realidadEscena.anadir(marcador.puntero);
+  return this;
 }
 
 Memorama.prototype.allowDetect=function(bool){
@@ -246,20 +262,20 @@ Memorama.prototype.allowDetect=function(bool){
 }
 
 Memorama.prototype.loop=function(){
-	this.renderer.clear();
-	this.videoEscena.update.call(this,this.videoEscena);
-	this.planoEscena.update.call(this,this.planoEscena);
-	this.realidadEscena.update.call(this,this.realidadEscena);
-	this.webcam.update();
+  this.renderer.clear();
+  this.videoEscena.update.call(this,this.videoEscena);
+  this.planoEscena.update.call(this,this.planoEscena);
+  this.realidadEscena.update.call(this,this.realidadEscena);
+  this.webcam.update();
   if(this.detecting_marker)
-    this.detector_ar.detectMarker(this);
+  this.detector_ar.detectMarker(this);
   for(var i=0;i<this.objetos.length;i++)
-    this.objetos[i].actualizar();
+  this.objetos[i].actualizar();
   this.label.material.map.needsUpdate=true;
   if(!pausado_kathia)
-    animate();
+  animate();
   if(!this.detener_calibracion)
-    this.calibracion();
+  this.calibracion();
   requestAnimationFrame(this.loop.bind(this));
 }
 

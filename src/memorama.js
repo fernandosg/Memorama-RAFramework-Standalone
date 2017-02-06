@@ -130,7 +130,7 @@ Memorama.prototype.init=function(){
   this.puntero.position.z=-1;
   this.puntero.matrixAutoUpdate = false;
   this.puntero.visible=false;
-  this.anadirMarcador({id:16,callback:this.fnAfter,puntero:this.puntero});
+  this.anadirMarcador({id:1,callback:this.fnAfter,puntero:this.puntero});
   //CREACION DE KATHIA
   document.getElementById("kathia").appendChild(kathia_renderer.view);
 
@@ -185,6 +185,7 @@ Memorama.prototype.logicaCalibracion=function(puntero){
         if(this.pos_elegido==this.cantidad_cartas){
           this.puntos_encontrados=true;
           this.detener_calibracion=true;
+          this.limpiar();
           this.init();
         }
       }
@@ -211,6 +212,12 @@ Memorama.prototype.inicioCalibarcion=function(){
     this.observador.suscribir("colision",this.objetos[this.objetos.length-1]);
     this.anadir(elemento.get());
   }
+}
+
+Memorama.prototype.limpiar=function(){
+	this.planoEscena.limpiar();
+	this.realidadEscena.limpiar();
+	this.detector_ar.cleanMarkers();
 }
 
 Memorama.prototype.calibracion=function(){

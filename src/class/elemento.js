@@ -196,19 +196,25 @@ Elemento.prototype.actualizar=function(){
 
 Elemento.prototype.dispatch=function(mano){
     distancia=this.getDistancia(mano);
-    return distancia>0 && distancia<=43;//return medidas1.distanceTo(medidas2);
+    console.log("distancia "+distancia);
+    return distancia>0 && distancia<=60;//return medidas1.distanceTo(medidas2);
 
 }
 
 Elemento.prototype.defineBox=function(){
+  this.box=new THREE.Box3().setFromObject(this.elemento_raiz);
+}
+
+Elemento.prototype.getBox=function(){
+  if(this.box==undefined)
     this.box=new THREE.Box3().setFromObject(this.elemento_raiz);
+  return this.box;
 }
 
 Elemento.prototype.getDistancia=function(mano){
-    box_mano=new THREE.Box3().setFromObject(mano);
-    pos1=box_mano.center().clone();
+    var pos1=mano.getWorldPosition();
     pos1.z=0;
-    pos2=this.box.center().clone();
+    var pos2=this.get().getWorldPosition();
     pos2.z=0;
     return Math.sqrt(Math.pow((pos1.x-pos2.x),2)+Math.pow((pos1.y-pos2.y),2));
 }

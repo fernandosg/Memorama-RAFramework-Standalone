@@ -82,6 +82,7 @@ Memorama.prototype.init=function(){
   var mensaje="Bienvenido al ejercicio Memorama<br>";
   var descripcion="El objetivo de este ejercicio, es tocar los pares de cada carta.<br>No te preocupes si no logras en el primer intento, puedes seguir jugando hasta seleccionar cada uno de los pares<br><br>";
   document.getElementById("informacion_nivel").innerHTML=mensaje+descripcion;
+  document.getElementById("informacion_calibrar").style="display:none";
   var avances=document.createElement("id");
   avances.id="avances_memorama";
   document.getElementById("informacion_nivel").appendChild(avances);
@@ -198,7 +199,7 @@ Memorama.prototype.logicaCalibracion=function(puntero){
 Memorama.prototype.inicioCalibarcion=function(){
   this.objetos=[];
   this.colores=["rgb(34, 208, 6)","rgb(25, 11, 228)","rgb(244, 6, 6)","rgb(244, 232, 6)"];
-
+  document.getElementById("colorSelect").style.backgroundColor=this.colores[this.pos_elegido];
   //CREACION DE OBJETOS A SELECCIONAR PARA CALIBRAR
   limite_renglon=Math.floor(this.cantidad_cartas/2)+1;
   tamano_elemento=80;

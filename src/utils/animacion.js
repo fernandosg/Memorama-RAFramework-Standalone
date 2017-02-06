@@ -1,4 +1,4 @@
-function Animacion(){	
+function Animacion(){
 }
 
 Animacion.prototype.easein={
@@ -29,21 +29,21 @@ Animacion.prototype.easein={
 	}
 }
 
-Animacion.prototype.mostrar=function(objeto,animation,grados){
+Animacion.prototype.mostrar=function(objeto,grados){
 	if(objeto.getGradosActual()<=grados){
         window.requestAnimationFrame(function(){
-        	animation.mostrar(objeto,animation,grados);
-        });
+        	this.mostrar(objeto,grados);
+        }.bind(this));
         objeto.rotarY(THREE.Math.degToRad(objeto.getGradosActual()));
         objeto.incrementGrados();
     }
 }
 
-Animacion.prototype.ocultar=function(objeto,animation){
+Animacion.prototype.ocultar=function(objeto){
 	 if(objeto.getGradosActual()>=0){
         window.requestAnimationFrame(function(){
-            animation.ocultar(objeto,animation);
-        });
+            this.ocultar(objeto);
+        }.bind(this));
         objeto.rotarY(THREE.Math.degToRad( objeto.getGradosActual()));
         objeto.decrementGrados();
     }

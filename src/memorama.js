@@ -86,7 +86,7 @@ Memorama.prototype.init=function(){
   avances.id="avances_memorama";
   document.getElementById("informacion_nivel").appendChild(avances);
   this.detectados=[];
-
+  this.objetos=[];
   // CREACION DEL ELEMENTO ACIERTO (LA IMAGEN DE LA ESTRELLA)
   this.indicador_acierto=new this.Elemento(500,500,new THREE.PlaneGeometry(500,500));
   this.indicador_acierto.init();
@@ -111,12 +111,13 @@ Memorama.prototype.init=function(){
     elemento.etiqueta(cartas[this.tipo_memorama][fila_pos-1]);
     elemento.scale(.7,.7);
     elemento.position({x:pos_x,y:pos_y,z:-600});
+    //elemento.calculoOrigen();
     this.objetos.push(elemento);
-    this.anadir(elemento.get());
-    this.objetos[this.objetos.length-1].definirCaras("./assets/img/memorama/sin_voltear.jpg","./assets/img/memorama/"+this.tipo_memorama+"/cart"+fila_pos+"_"+cartas[this.tipo_memorama][fila_pos-1]+".jpg",
-    this.objetos[this.objetos.length-1]);
-    capa_elemento=document.createElement("div");
+    elemento.definirCaras("./assets/img/memorama/sin_voltear.jpg","./assets/img/memorama/"+this.tipo_memorama+"/cart"+fila_pos+"_"+cartas[this.tipo_memorama][fila_pos-1]+".jpg",
+    elemento);
     this.observador.suscribir("colision",this.objetos[this.objetos.length-1]);
+    this.anadir(elemento.get());
+    capa_elemento=document.createElement("div");
   }
   //*/
 
@@ -144,6 +145,7 @@ Memorama.prototype.init=function(){
 
 Memorama.prototype.logicaMemorama=function(esColisionado,objeto_actual){
   if(esColisionado){
+    console.dir(objeto_actual.get().position);
     if(this.detectados.length==1 && this.detectados[0].igualA(objeto_actual)){
 
     }else if(this.detectados.length==1 && this.detectados[0].esParDe(objeto_actual)){
@@ -177,8 +179,8 @@ Memorama.prototype.fnAfter=function(puntero){
 Memorama.prototype.logicaCalibracion=function(puntero){
   if(puntero.getWorldPosition().z>300 && puntero.getWorldPosition().z<=500){
     puntero.visible=true;
-    this.observador.dispararParticular("colision",this.objetos[this.pos_elegido],puntero,function(esColision,extras){
-      if(esColision){
+    this.observador.dispararParticular("colision",this.objetos[this.pos_elegido],puntero,function(esColisionado,extras){
+      if(esColisionado){
         extras["observador"].baja("colision",this.objetos[this.pos_elegido]);
         this.pos_elegido++;
         document.getElementById("colorSelect").style.backgroundColor=this.colores[this.pos_elegido];
@@ -206,7 +208,7 @@ Memorama.prototype.inicioCalibarcion=function(){
     elemento.init();
     elemento.etiqueta(this.colores[x-1]);
     elemento.position({x:pos_x,y:pos_y,z:-600});
-    elemento.calculoOrigen();
+    //elemento.calculoOrigen();
     this.objetos.push(elemento);
     elemento.definirBackground(this.colores[x-1]);
     this.observador.suscribir("colision",this.objetos[this.objetos.length-1]);

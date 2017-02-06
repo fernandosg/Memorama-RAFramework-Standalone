@@ -146,7 +146,6 @@ Memorama.prototype.init=function(){
 
 Memorama.prototype.logicaMemorama=function(esColisionado,objeto_actual){
   if(esColisionado){
-    console.dir(objeto_actual.get().position);
     if(this.detectados.length==1 && this.detectados[0].igualA(objeto_actual)){
 
     }else if(this.detectados.length==1 && this.detectados[0].esParDe(objeto_actual)){

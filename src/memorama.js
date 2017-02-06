@@ -80,7 +80,6 @@ Memorama.prototype.anadir=function(obj){
 Memorama.prototype.init=function(){
   this.tipo_memorama="animales";
   var mensaje="Bienvenido al ejercicio Memorama<br>";
-  this.observador=require("./utils/ManejadorEventos");
   var descripcion="El objetivo de este ejercicio, es tocar los pares de cada carta.<br>No te preocupes si no logras en el primer intento, puedes seguir jugando hasta seleccionar cada uno de los pares<br><br>";
   document.getElementById("informacion_nivel").innerHTML=mensaje+descripcion;
   var avances=document.createElement("id");
@@ -183,8 +182,11 @@ Memorama.prototype.logicaCalibracion=function(puntero){
         extras["observador"].baja("colision",this.objetos[this.pos_elegido]);
         this.pos_elegido++;
         document.getElementById("colorSelect").style.backgroundColor=this.colores[this.pos_elegido];
-        if(this.pos_elegido==this.cantidad_cartas)
-        this.puntos_encontrados=true;
+        if(this.pos_elegido==this.cantidad_cartas){
+          this.puntos_encontrados=true;
+          this.detener_calibracion=true;
+          this.init();
+        }
       }
     }.bind(this));//*/
   }
@@ -233,9 +235,6 @@ Memorama.prototype.calibracion=function(){
     calibrar=false;
     if(calibracion_correcta && !puntos_encontrados){
       this.allowDetect(true);
-    }else if(puntos_encontrados){
-      document.getElementById("informacion_calibrar").setAttribute("style","display:none;");
-      this.detener_calibracion=true;
     }
   }
   if(this.detener_calibracion)

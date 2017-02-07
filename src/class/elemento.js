@@ -57,8 +57,6 @@ Elemento.prototype.definirBackground=function(color){
     this.material_frente=new THREE.MeshBasicMaterial({color: color_t,side: THREE.DoubleSide});
     this.mesh=new THREE.Mesh(this.geometry,this.material_frente);
     this.elemento_raiz.add(this.mesh);
-    this.defineBox();
-    this.box=new THREE.Box3().setFromObject(this.elemento_raiz);
 }
 
 Elemento.prototype.definir=function(ruta){
@@ -78,7 +76,6 @@ Elemento.prototype.actualizarMaterialAtras=function(texture2){
     this.geometria_atras.applyMatrix( new THREE.Matrix4().makeRotationY( Math.PI ) );
     this.mesh2=new THREE.Mesh(this.geometria_atras,this.material_atras);
     this.elemento_raiz.add(this.mesh2);
-    this.defineBox();
     this.textura_atras.needsUpdate = true;
 }
 
@@ -90,7 +87,6 @@ Elemento.prototype.actualizarMaterialFrente=function(texture1){
     this.material_frente.transparent=true;
     this.mesh=new THREE.Mesh(this.geometry,this.material_frente);
     this.elemento_raiz.add(this.mesh);
-    this.defineBox();
     this.textura_frente.needsUpdate = true;
 }
 
@@ -104,25 +100,6 @@ Elemento.prototype.definirCaras=function(frontal,trasera,objeto){
 
 }
 
-Elemento.prototype.getTexturaAtras=function(){
-    return this.textura_atras;
-}
-
-Elemento.prototype.getTexturaFrente=function(){
-    return this.textura_frente;
-}
-
-Elemento.prototype.getMaterialAtras=function(){
-    return this.material_atras;
-}
-
-Elemento.prototype.getMaterialFrente=function(){
-    return material_frente;
-}
-
-Elemento.prototype.getDimensiones=function(){
-    return {width:width,height:height,position:posiciones,geometry:elemento_raiz.geometry};
-}
 
 Elemento.prototype.get=function(){
     return this.elemento_raiz;
@@ -147,7 +124,6 @@ Elemento.prototype.position=function(pos){
     this.x=pos.x;
     this.y=pos.y;
     this.posiciones=this.elemento_raiz.position;
-    this.defineBox();
 }
 
 Elemento.prototype.rotation=function(pos){
@@ -168,7 +144,6 @@ Elemento.prototype.incrementar=function(pos){
     this.x=pos.x;
     this.y=pos.y;
     this.posiciones=this.elemento_raiz.position;
-    this.defineBox();
 }
 
 
@@ -201,15 +176,6 @@ Elemento.prototype.dispatch=function(mano){
 
 }
 
-Elemento.prototype.defineBox=function(){
-  this.box=new THREE.Box3().setFromObject(this.elemento_raiz);
-}
-
-Elemento.prototype.getBox=function(){
-  if(this.box==undefined)
-    this.box=new THREE.Box3().setFromObject(this.elemento_raiz);
-  return this.box;
-}
 
 Elemento.prototype.getDistancia=function(mano){
     var pos1=mano.getWorldPosition();

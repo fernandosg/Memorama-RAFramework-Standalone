@@ -13,7 +13,7 @@ function Escenario(){
 }
 
 /**
- * Función initCamara
+ * @function initCamara
  * Permite inicializar la cámara que se encargara de observar este escenario
  * @param {Function} - (Opcional) Esta función se ejecutara usando el ambito de la función Escenario. Sirve principalmente para definir una configuración predefinida para la cámara
 */
@@ -26,7 +26,7 @@ Escenario.prototype.initCamara=function(fn){
 
 
 /**
- * Función anadir
+ * @function anadir
  * Permite inicializar la cámara que se encargara de observar este escenario
  * @param {THREE.Object3D} - Es el objeto que se añadira al escenario
 */
@@ -36,7 +36,7 @@ Escenario.prototype.anadir=function(elemento){
 
 
 /**
- * Función getCamara
+ * @function getCamara
  * Retorna la cámara de esta escena
  * @returns {THREE.Camera} - La cámara definida en este escenario
 */
@@ -46,7 +46,7 @@ Escenario.prototype.getCamara=function(){
 
 
 /**
- * Función update
+ * @function update
  * Renderiza el escneario
  * @param {THREE.Scene}
 */
@@ -57,7 +57,7 @@ Escenario.prototype.update=function(scene){
 
 
 /**
- * Función limpiar
+ * @function limpiar
  * Limpia todos los elementos en la escena
 */
 Escenario.prototype.limpiar=function(){

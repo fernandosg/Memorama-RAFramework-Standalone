@@ -23,7 +23,7 @@ function Memorama(WIDTH,HEIGHT){
 
 
 /**
- * Funcion start de Memorama
+ * @function start
  * Permite inicializar todas las dependencias iniciales que ocupara la aplicación, incluyendo las clases para crear elementos,escenarios,planos, y la detección de la webcam
 */
 Memorama.prototype.start=function(){
@@ -91,7 +91,7 @@ Memorama.prototype.desbloquear=function(){
 
 
 /**
- * Funcion anadir de Memorama
+ * @function anadir
  * Permite añadir un elemento al escenario visible en el canvas.
  * @param {THREE.Object3D} obj - Una instancia de THREE.Object3D a agregar a escena
 */
@@ -100,7 +100,7 @@ Memorama.prototype.anadir=function(obj){
 }
 
 /**
- * Funcion init de Memorama
+ * @function init
  * Esta función ejecuta el nivel de Memorama. En la aplicación esta funcion se ejecuta despues de calibrar la cámara.
 */
 Memorama.prototype.init=function(){
@@ -171,7 +171,7 @@ Memorama.prototype.init=function(){
 }
 
 /**
- * Función logicaMemorama de Memorama
+ * @function logicaMemorama
  * Esta función se ejecutara una vez que algún objeto haya colisionado con el marcador.
  * La función sera ejecutada por la instancia de ManejadorEventos.
  * Dentro de esta función es donde esta la logica tradicional de un juego de memorama
@@ -204,7 +204,7 @@ Memorama.prototype.logicaMemorama=function(esColisionado,objeto_actual){
 }
 
 /**
- * Funcion callbackMemorama de Memorama
+ * @function callbackMemorama
  * Esta funcion sirve como callback una vez que el detector de marcadores, haya detectado un marcador.
  * Una vez detectado el marcador, se ejecutara y dentro se identificara si cumple con las condiciones de profunidad
  * @param {THREE.Object3D} puntero - Es el objeto que la instancia de DetectorAR, traspuso la posición del marcador
@@ -217,7 +217,7 @@ Memorama.prototype.callbackMemorama=function(puntero){
 }
 
 /**
- * Funcion logicaCalibracion de Memorama
+ * @function logicaCalibracion
  * Esta funcion sirve como callback una vez que el detector de marcadores, haya detectado un marcador.
  * A su vez, dentro de la misma esta la lógica de la etapa de Calibracion.
  * La etapa de calibración es un proceso donde a partir de un orden de colores, debes de seleccionar cada color, dependiendo de el orden indicado.
@@ -244,7 +244,7 @@ Memorama.prototype.logicaCalibracion=function(puntero){
 }
 
 /**
- * Funcion inicioCalibracion de Memorama
+ * @function inicioCalibracion
  * Crea todos los elementos dibujados en el canvas,donde cada elemento tiene un color especifico
 */
 Memorama.prototype.inicioCalibarcion=function(){
@@ -269,7 +269,7 @@ Memorama.prototype.inicioCalibarcion=function(){
 }
 
 /**
- * Funcion limpiar de Memorama
+ * @function limpiar
  * Ejecuta la funcion limpiar de planoEscena, realidadEscena, donde en cada una, elimina todos los objetos dibujados y agregados a escena.
  * Tambien elimina todos los marcadores agregados a detectar.
 */
@@ -280,7 +280,7 @@ Memorama.prototype.limpiar=function(){
 }
 
 /**
- * Función calibracion de Memorama
+ * @function calibracion
  * Inicia el proceso de calibración.
  * JSArtoolkit permite definir un umbral para identificar de una mejor manera un marcador por medio de la cámara web.
  * Bajo cierto ambiente de iluminación un umbral mayor o menor repercute en la detección del marcador.
@@ -324,7 +324,7 @@ Memorama.prototype.calibracion=function(){
 }
 
 /**
- * Función anadirMarcador de Memorama
+ * @function anadirMarcador
  * Agrega un marcador a la instancia de DetectorAR, donde una vez que se identifique el marcador se ejecutara el callback especificado
  * @param {Object} marcador - Un objeto con 3 propiedades
  * 1) id (integer - es el identificador que ocupa JSArtoolkit para un marcador especifico),
@@ -340,7 +340,7 @@ Memorama.prototype.anadirMarcador=function(marcador){
 
 
 /**
- * Función allowDetect de Memorama
+ * @function allowDetect
  * @param {boolean} bool
 */
 Memorama.prototype.allowDetect=function(bool){
@@ -349,7 +349,7 @@ Memorama.prototype.allowDetect=function(bool){
 
 
 /**
- * Función loop de Memorama
+ * @function loop
  * Esta función se estara ejecutando finitamente hasta que se cierre la aplicación.
  * Se encargara del redibujo de todos los elementos agregados a escena y la actualización del canvas con la transmisión de la webcam.
 */

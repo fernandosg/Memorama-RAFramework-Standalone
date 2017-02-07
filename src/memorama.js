@@ -1,3 +1,15 @@
+/**
+ * @file Nivel Memorama
+ * @author Fernando Segura Gómez, Twitter: @fsgdev
+ * @version 0.1
+ */
+
+ /**
+  * Clase Memorama
+  * @constructor
+  * @param {integer} WIDTH - El ancho del canvas que se agregara al documento HTML
+  * @param {integer} HEIGHT - El alto del canvas que se agregara al documento HTML
+ */
 function Memorama(WIDTH,HEIGHT){
   this.bloqueado=false;
   this.WIDTH_CANVAS=WIDTH;
@@ -9,6 +21,11 @@ function Memorama(WIDTH,HEIGHT){
   this.pos_elegido=0;
 }
 
+
+/**
+ * Funcion start de Memorama
+ * Permite inicializar todas las dependencias iniciales que ocupara la aplicación, incluyendo las clases para crear elementos,escenarios,planos, y la detección de la webcam
+*/
 Memorama.prototype.start=function(){
   var Animacion=require('./utils/animacion.js');
   var Escenario=require("./class/escenario.js");
@@ -73,10 +90,19 @@ Memorama.prototype.desbloquear=function(){
 }
 
 
+/**
+ * Funcion anadir de Memorama
+ * Permite añadir un elemento al escenario visible en el canvas.
+ * @param {THREE.Object3D} obj - Una instancia de THREE.Object3D a agregar a escena
+*/
 Memorama.prototype.anadir=function(obj){
   this.planoEscena.anadir(obj);
 }
 
+/**
+ * Funcion init de Memorama
+ * Esta función ejecuta el nivel de Memorama. En la aplicación esta funcion se ejecuta despues de calibrar la cámara.
+*/
 Memorama.prototype.init=function(){
   this.tipo_memorama="animales";
   var mensaje="Bienvenido al ejercicio Memorama<br>";
@@ -132,7 +158,7 @@ Memorama.prototype.init=function(){
   this.puntero.position.z=-1;
   this.puntero.matrixAutoUpdate = false;
   this.puntero.visible=false;
-  this.anadirMarcador({id:1,callback:this.fnAfter,puntero:this.puntero});
+  this.anadirMarcador({id:1,callback:this.callbackMemorama,puntero:this.puntero});
   //CREACION DE KATHIA
   document.getElementById("kathia").appendChild(kathia_renderer.view);
 
@@ -144,6 +170,14 @@ Memorama.prototype.init=function(){
   this.loop();
 }
 
+/**
+ * Función logicaMemorama de Memorama
+ * Esta función se ejecutara una vez que algún objeto haya colisionado con el marcador.
+ * La función sera ejecutada por la instancia de ManejadorEventos.
+ * Dentro de esta función es donde esta la logica tradicional de un juego de memorama
+ * @param {boolean} esColisionado - Es una bandera, la cual traera el resultado si el marcador colisiono con algun objeto
+ * @param {Three.Object3D} objeto_actual -
+*/
 Memorama.prototype.logicaMemorama=function(esColisionado,objeto_actual){
   if(esColisionado){
     if(this.detectados.length==1 && this.detectados[0].igualA(objeto_actual)){
@@ -169,13 +203,27 @@ Memorama.prototype.logicaMemorama=function(esColisionado,objeto_actual){
   }
 }
 
-Memorama.prototype.fnAfter=function(puntero){
+/**
+ * Funcion callbackMemorama de Memorama
+ * Esta funcion sirve como callback una vez que el detector de marcadores, haya detectado un marcador.
+ * Una vez detectado el marcador, se ejecutara y dentro se identificara si cumple con las condiciones de profunidad
+ * @param {THREE.Object3D} puntero - Es el objeto que la instancia de DetectorAR, traspuso la posición del marcador
+*/
+Memorama.prototype.callbackMemorama=function(puntero){
   if(puntero.getWorldPosition().z>300 && puntero.getWorldPosition().z<=500){
     puntero.visible=true;
     this.observador.disparar("colision",puntero,this.logicaMemorama,{stage:this});
   }
 }
 
+/**
+ * Funcion logicaCalibracion de Memorama
+ * Esta funcion sirve como callback una vez que el detector de marcadores, haya detectado un marcador.
+ * A su vez, dentro de la misma esta la lógica de la etapa de Calibracion.
+ * La etapa de calibración es un proceso donde a partir de un orden de colores, debes de seleccionar cada color, dependiendo de el orden indicado.
+ * La misma funcion identifica si ya se detectaron todos los elementos de prueba, inicia el nivel de Memorama
+ * @param {THREE.Object3D} puntero - Es el objeto que la instancia de DetectorAR, traspuso la posición del marcador
+*/
 Memorama.prototype.logicaCalibracion=function(puntero){
   if(puntero.getWorldPosition().z>300 && puntero.getWorldPosition().z<=500){
     puntero.visible=true;
@@ -195,6 +243,10 @@ Memorama.prototype.logicaCalibracion=function(puntero){
   }
 }
 
+/**
+ * Funcion inicioCalibracion de Memorama
+ * Crea todos los elementos dibujados en el canvas,donde cada elemento tiene un color especifico
+*/
 Memorama.prototype.inicioCalibarcion=function(){
   this.objetos=[];
   this.colores=["rgb(34, 208, 6)","rgb(25, 11, 228)","rgb(244, 6, 6)","rgb(244, 232, 6)"];
@@ -216,12 +268,22 @@ Memorama.prototype.inicioCalibarcion=function(){
   }
 }
 
+/**
+ * Funcion limpiar de Memorama
+ * Ejecuta la funcion limpiar de planoEscena, realidadEscena, donde en cada una, elimina todos los objetos dibujados y agregados a escena.
+ * Tambien elimina todos los marcadores agregados a detectar.
+*/
 Memorama.prototype.limpiar=function(){
 	this.planoEscena.limpiar();
 	this.realidadEscena.limpiar();
 	this.detector_ar.cleanMarkers();
 }
 
+/**
+ * Función limpiar de Memorama
+ * Ejecuta la función limpiar de planoEscena, realidadEscena, donde en cada una, elimina todos los objetos dibujados y agregados a escena.
+ * También elimina todos los marcadores agregados a detectar.
+*/
 Memorama.prototype.calibracion=function(){
   if(calibrar){
     threshold_total=0;
@@ -258,6 +320,14 @@ Memorama.prototype.calibracion=function(){
   }
 }
 
+/**
+ * Función anadirMarcador de Memorama
+ * Agrega un marcador a la instancia de DetectorAR, donde una vez que se identifique el marcador se ejecutara el callback especificado
+ * @param {Object} marcador - Un objeto con 3 propiedades
+ * 1) id (integer - es el identificador que ocupa JSArtoolkit para un marcador especifico),
+ * 2) callback (function - es la función a ejecutar una vez que el marcador se haya detectado),
+ * 3) puntero (THREE.Object3D - es el objeto el cual tendra la posicion del marcador detectado)
+*/
 Memorama.prototype.anadirMarcador=function(marcador){
   this.detector_ar.addMarker.call(this,marcador);
   if(marcador.puntero!=undefined)
@@ -265,10 +335,21 @@ Memorama.prototype.anadirMarcador=function(marcador){
   return this;
 }
 
+
+/**
+ * Función allowDetect de Memorama
+ * @param {boolean} bool
+*/
 Memorama.prototype.allowDetect=function(bool){
   this.detecting_marker=bool;
 }
 
+
+/**
+ * Función loop de Memorama
+ * Esta función se estara ejecutando finitamente hasta que se cierre la aplicación.
+ * Se encargara del redibujo de todos los elementos agregados a escena y la actualización del canvas con la transmisión de la webcam.
+*/
 Memorama.prototype.loop=function(){
   this.renderer.clear();
   this.videoEscena.update.call(this,this.videoEscena);

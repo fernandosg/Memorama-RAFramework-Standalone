@@ -11,10 +11,20 @@ module.exports = function (grunt) {
           'dist/js/bundle.js': ['src/class/*.js','src/utils/*.js','src/*.js'],
         }
       }
+    },
+    jsdoc : {
+        dist : {
+            src: ['src/memorama.js','src/class/escenario.js'],
+            options: {
+                destination: 'doc'
+            }
+        }
     }
   });
   grunt.loadNpmTasks('grunt-shell');
   grunt.loadNpmTasks('grunt-browserify');
   grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.loadNpmTasks('grunt-jsdoc');
+  grunt.registerTask("generating-doc",["jsdoc"])
   grunt.registerTask('default', ['watch']);
 };

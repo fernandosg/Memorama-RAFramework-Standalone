@@ -280,9 +280,12 @@ Memorama.prototype.limpiar=function(){
 }
 
 /**
- * Función limpiar de Memorama
- * Ejecuta la función limpiar de planoEscena, realidadEscena, donde en cada una, elimina todos los objetos dibujados y agregados a escena.
- * También elimina todos los marcadores agregados a detectar.
+ * Función calibracion de Memorama
+ * Inicia el proceso de calibración.
+ * JSArtoolkit permite definir un umbral para identificar de una mejor manera un marcador por medio de la cámara web.
+ * Bajo cierto ambiente de iluminación un umbral mayor o menor repercute en la detección del marcador.
+ * Como el ambiente no es posible controlarlo, ni poder definir un umbral que sea adecuado para todo tipo de iluminación, se creo esta función.
+ * Esta función recorre de 0 a 299, para evaluar si el umbral (el puntero en ese ciclo) es el adecuado para la detección del marcador
 */
 Memorama.prototype.calibracion=function(){
   if(calibrar){

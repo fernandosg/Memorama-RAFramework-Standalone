@@ -141,8 +141,7 @@ Memorama.prototype.init=function(){
     elemento.position({x:pos_x,y:pos_y,z:-600});
     //elemento.calculoOrigen();
     this.objetos.push(elemento);
-    elemento.definirCaras("./assets/img/memorama/sin_voltear.jpg","./assets/img/memorama/"+this.tipo_memorama+"/cart"+fila_pos+"_"+cartas[this.tipo_memorama][fila_pos-1]+".jpg",
-    elemento);
+    elemento.definirCaras("./assets/img/memorama/sin_voltear.jpg","./assets/img/memorama/"+this.tipo_memorama+"/cart"+fila_pos+"_"+cartas[this.tipo_memorama][fila_pos-1]+".jpg");
     this.observador.suscribir("colision",this.objetos[this.objetos.length-1]);
     this.anadir(elemento.get());
     capa_elemento=document.createElement("div");

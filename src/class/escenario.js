@@ -6,6 +6,7 @@
 
 /**
  * Clase Escenario
+ * @class
  * @constructor
 */
 function Escenario(){
@@ -14,7 +15,7 @@ function Escenario(){
 
 /**
  * @function initCamara
- * Permite inicializar la cámara que se encargara de observar este escenario
+ * @summary Permite inicializar la cámara que se encargara de observar este escenario
  * @param {Function} - (Opcional) Esta función se ejecutara usando el ambito de la función Escenario. Sirve principalmente para definir una configuración predefinida para la cámara
 */
 Escenario.prototype.initCamara=function(fn){
@@ -27,7 +28,7 @@ Escenario.prototype.initCamara=function(fn){
 
 /**
  * @function anadir
- * Permite inicializar la cámara que se encargara de observar este escenario
+ * @summary Permite inicializar la cámara que se encargara de observar este escenario
  * @param {THREE.Object3D} - Es el objeto que se añadira al escenario
 */
 Escenario.prototype.anadir=function(elemento){
@@ -37,7 +38,7 @@ Escenario.prototype.anadir=function(elemento){
 
 /**
  * @function getCamara
- * Retorna la cámara de esta escena
+ * @summary Retorna la cámara de esta escena
  * @returns {THREE.Camera} - La cámara definida en este escenario
 */
 Escenario.prototype.getCamara=function(){
@@ -47,7 +48,7 @@ Escenario.prototype.getCamara=function(){
 
 /**
  * @function update
- * Renderiza el escneario
+ * @summary Renderiza el escneario
  * @param {THREE.Scene}
 */
 Escenario.prototype.update=function(scene){
@@ -58,7 +59,7 @@ Escenario.prototype.update=function(scene){
 
 /**
  * @function limpiar
- * Limpia todos los elementos en la escena
+ * @summary Limpia todos los elementos en la escena
 */
 Escenario.prototype.limpiar=function(){
 	while(this.escena.children.length>0)

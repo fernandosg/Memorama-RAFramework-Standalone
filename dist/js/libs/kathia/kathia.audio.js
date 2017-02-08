@@ -20,7 +20,7 @@ var banderaAcierto = true;
 var banderaFallo = true;
 
 sonidos={
-    "memorama":{"bienvenida":sonidosLista[0],"instrucciones":sonidosLista[1],"acierto":sonidosLista[2],"fallo":sonidosLista[4],"finalizar":sonidosLista[6],"saludo":sonidosLista[7],"error":sonidosLista[9]}    
+    "memorama":{"bienvenida":sonidosLista[0],"instrucciones":sonidosLista[1],"acierto":sonidosLista[2],"fallo":sonidosLista[4],"finalizar":sonidosLista[6],"saludo":sonidosLista[7],"error":sonidosLista[9]}
 }
 sonidosEspera=[];
 // Definición de eventos de sonidos.
@@ -45,48 +45,5 @@ function reproducir(stage,opcion){
 
 
 function seleccionarAudio(stage,opcion) {
-    reproducir(stage,opcion);
-    /*
-    switch(opcion) {
-        case "bienvenida":
-            sonidoBienvenida.play();
-            break;
-
-        case "instrucciones":
-            sonidoInstrucciones.play();
-            break;
-
-        case "acierto":
-            if (banderaAcierto) sonidoAcierto01.play();
-            else sonidoAcierto02.play();
-
-            banderaAcierto = !banderaAcierto;
-            break;
-
-        case "fallo":
-            if (banderaFallo) sonidoFallo01.play();
-            else sonidoFallo02.play();
-
-            banderaFallo = !banderaFallo;
-            break;
-
-        case "finalizar":
-            sonidoFinalizar.play();
-            break;
-
-        case "saludo":
-            sonidoSaludo.play();
-            break;
-
-        case "despedida":
-            sonidoDespedida.play();
-            break;
-
-        case "error":
-            sonidoError.play();
-            break;
-
-        default:
-    }
-    */
+    reproducir(stage,opcion);    
 }

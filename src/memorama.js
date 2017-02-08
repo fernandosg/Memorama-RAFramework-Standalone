@@ -18,7 +18,7 @@ function Memorama(WIDTH,HEIGHT){
   calibrar=false;
   calibracion_correcta=false;
   puntos_encontrados=false;
-  inicio_calibracion=false;
+  primera_ejecucion=false;
   this.pos_elegido=0;
 }
 
@@ -313,8 +313,8 @@ Memorama.prototype.calibracion=function(){
   }
   if(this.detener_calibracion)
   this.init();
-  if(!inicio_calibracion){
-    inicio_calibracion=true;
+  if(!primera_ejecucion){
+    primera_ejecucion=true;
     document.getElementById("calibrar").addEventListener("click",function(){
       this.inicioCalibarcion();
       calibrar=true;

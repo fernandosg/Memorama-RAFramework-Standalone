@@ -5,7 +5,6 @@
  */
 
 var sonidoBienvenida = new Audio("./assets/sounds/bienvenida.wav");
-var sonidoBienvenidaTienda = new Audio("./assets/sounds/tiendaorden.mp3");
 var sonidoInstrucciones = new Audio("./assets/sounds/instrucciones.wav");
 var sonidoAcierto01 = new Audio("./assets/sounds/acierto01.wav");
 var sonidoAcierto02 = new Audio("./assets/sounds/acierto02.wav");
@@ -15,14 +14,13 @@ var sonidoFinalizar = new Audio("./assets/sounds/finalizar.wav");
 var sonidoSaludo = new Audio("./assets/sounds/saludo.wav");
 var sonidoDespedida = new Audio("./assets/sounds/despedida.wav");
 var sonidoError = new Audio("./assets/sounds/error.wav");
-var sonidosLista=[sonidoBienvenida,sonidoBienvenidaTienda,sonidoInstrucciones,sonidoAcierto01,
+var sonidosLista=[sonidoBienvenida,sonidoInstrucciones,sonidoAcierto01,
 sonidoAcierto02,sonidoFallo01,sonidoFallo02,sonidoFinalizar,sonidoSaludo,sonidoDespedida,sonidoError];
 var banderaAcierto = true;
 var banderaFallo = true;
 
 sonidos={
-    "memorama":{"bienvenida":sonidosLista[0],"instrucciones":sonidosLista[2],"acierto":sonidosLista[3],"fallo":sonidosLista[5],"finalizar":sonidosLista[7],"saludo":sonidosLista[8],"error":sonidosLista[10]},
-    "tienda":{"bienvenida":sonidoBienvenidaTienda}
+    "memorama":{"bienvenida":sonidosLista[0],"instrucciones":sonidosLista[1],"acierto":sonidosLista[2],"fallo":sonidosLista[4],"finalizar":sonidosLista[6],"saludo":sonidosLista[7],"error":sonidosLista[9]}    
 }
 sonidosEspera=[];
 // Definición de eventos de sonidos.

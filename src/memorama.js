@@ -18,7 +18,11 @@ function Memorama(WIDTH,HEIGHT){
   calibrar=false;
   calibracion_correcta=false;
   puntos_encontrados=false;
-  primera_ejecucion=false;
+  primera_ejecucion=true;
+  document.getElementById("calibrar").addEventListener("click",function(){
+    this.inicioCalibarcion();
+    calibrar=true;
+  }.bind(this))
   this.pos_elegido=0;
 }
 
@@ -313,12 +317,8 @@ Memorama.prototype.calibracion=function(){
   }
   if(this.detener_calibracion)
   this.init();
-  if(!primera_ejecucion){
-    primera_ejecucion=true;
-    document.getElementById("calibrar").addEventListener("click",function(){
-      this.inicioCalibarcion();
-      calibrar=true;
-    }.bind(this))
+  if(primera_ejecucion){
+    primera_ejecucion=false;
     this.loop();
   }
 }

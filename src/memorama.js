@@ -306,7 +306,6 @@ Memorama.prototype.calibracion=function(){
       threshold_total=threshold_total/threshold_conteo;
       this.detector_ar.cambiarThreshold(threshold_total);
       calibracion_correcta=true;
-      calibrar=false;
       threshold_conteo=0;
       threshold_total=0;
     }

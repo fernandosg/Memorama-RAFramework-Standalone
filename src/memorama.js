@@ -19,7 +19,7 @@ function Memorama(WIDTH,HEIGHT){
   puntos_encontrados=false;
   primera_ejecucion=true;
   document.getElementById("calibrar").addEventListener("click",function(){
-    this.inicioCalibarcion();
+    this.inicioCalibracion();
     calibrar=true;
   }.bind(this))
   this.pos_elegido=0;
@@ -231,7 +231,7 @@ Memorama.prototype.logicaCalibracion=function(puntero){
  * @function inicioCalibracion
  * @summary Crea todos los elementos dibujados en el canvas,donde cada elemento tiene un color especifico
 */
-Memorama.prototype.inicioCalibarcion=function(){
+Memorama.prototype.inicioCalibracion=function(){
   this.objetos=[];
   this.colores=["rgb(34, 208, 6)","rgb(25, 11, 228)","rgb(244, 6, 6)","rgb(244, 232, 6)"];
   document.getElementById("colorSelect").style.backgroundColor=this.colores[this.pos_elegido];

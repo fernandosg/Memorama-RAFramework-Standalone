@@ -1,9 +1,23 @@
+/**
+ * @file Elemento
+ * @author Fernando Segura Gómez, Twitter: @fsgdev
+ * @version 0.1
+ */
+ /**
+  * Clase Elemento
+  * @class
+  * @constructor
+  * @param {integer} width_canvas - El ancho del canvas que se agrego al documento HTML
+  * @param {integer} height_canvas - El alto del canvas que se agrego al documento HTML
+  * @param {THREE.Geometry} geometry - Instancia de una geometria para el objeto generado.
+ */
 function Elemento(width_canvas,height_canvas,geometry){
     this.width=width_canvas;
     this.height=height_canvas;
     this.geometry=geometry,this.origen=new THREE.Vector2(),this.cont=0,this.estado=true,this.escalas=new THREE.Vector3(),this.posiciones=new THREE.Vector3();
     this.callbacks=[];
 }
+
 
 Elemento.prototype.cambiarUmbral=function(escala){
     this.umbral_colision=this.width/4;
@@ -12,6 +26,12 @@ Elemento.prototype.cambiarUmbral=function(escala){
 Elemento.prototype.next=function(callback){
     this.callbacks.push(callback);
 }
+
+
+/**
+ * @function init
+ * @summary Inicializa el objeto raiz (la instancia de THREE.Object3D), la geometria de la superficie trasera del objeto, y una utilidad para descargar una textura sobre el objeto
+*/
 Elemento.prototype.init=function(){
     this.elemento_raiz=new THREE.Object3D();
     this.geometria_atras=this.geometry.clone();
@@ -32,7 +52,10 @@ Elemento.prototype.iterateCalls=function(){
     }
 }
 
-
+/**
+ * @function etiqueta
+ * @summary Permite definir una etiqueta al objeto (es un string que identifica este de otros objetos)
+*/
 Elemento.prototype.etiqueta=function(etiqueta){
     this.nombre=etiqueta
 }
@@ -41,17 +64,31 @@ Elemento.prototype.dimensiones=function(){
     return " "+width+" "+height;
 }
 
+
+/**
+ * @function calculoOrigen
+ * @summary Se calcula la posicion del centro en X,Y y Z del objeto
+*/
 Elemento.prototype.calculoOrigen=function(){
     this.x=(this.posiciones.x+(this.width/2));
     this.y=(this.posiciones.y+(this.height/2));
     this.z=this.posiciones.z;
 }
 
+/**
+ * @function cambiarVisible
+ * @summary Permite hacer visible el objeto, si anteriormente estaba invisible o viceversa
+*/
 Elemento.prototype.cambiarVisible=function(){
     this.elemento_raiz.visible=this.elemento_raiz.visible ? false : true;
 }
 
 
+/**
+ * @function defininrBackground
+ * @summary Permite definir la superficie del objeto con un color.
+ * @param {THREE.Color} color - Una instancia de THREE.Color
+*/
 Elemento.prototype.definirBackground=function(color){
     color_t=new THREE.Color(color);
     this.material_frente=new THREE.MeshBasicMaterial({color: color_t,side: THREE.DoubleSide});
@@ -59,6 +96,12 @@ Elemento.prototype.definirBackground=function(color){
     this.elemento_raiz.add(this.mesh);
 }
 
+
+/**
+ * @function definir
+ * @summary Permite definir la superficie de un objeto a partir de un recurso grafico (una imagen)
+ * @param {String} ruta - La ubicación como string del recurso grafico
+*/
 Elemento.prototype.definir=function(ruta){
     this.textureLoader.load( ruta, function(texture) {
         this.actualizarMaterialFrente(texture);
@@ -66,6 +109,11 @@ Elemento.prototype.definir=function(ruta){
 }
 
 
+/**
+ * @function actualizarMaterialAtras
+ * @summary Permite definir la superficie trasera del objeto.
+ * @param {THREE.Texture} texture2 - La textura a definir en la parte de atras del objeto
+*/
 Elemento.prototype.actualizarMaterialAtras=function(texture2){
     this.textura_atras = texture2.clone();
     this.textura_atras.minFilter = THREE.LinearFilter;
@@ -79,6 +127,12 @@ Elemento.prototype.actualizarMaterialAtras=function(texture2){
     this.textura_atras.needsUpdate = true;
 }
 
+
+/**
+ * @function actualizarMaterialFrente
+ * @summary Permite definir la superficie de enfrente del objeto.
+ * @param {THREE.Texture} texture1 - La textura a definir en la parte de enfrente del objeto
+*/
 Elemento.prototype.actualizarMaterialFrente=function(texture1){
     this.textura_frente = texture1.clone();
     this.textura_frente.minFilter = THREE.LinearFilter;
@@ -90,33 +144,60 @@ Elemento.prototype.actualizarMaterialFrente=function(texture1){
     this.textura_frente.needsUpdate = true;
 }
 
-Elemento.prototype.definirCaras=function(frontal,trasera,objeto){
+
+/**
+ * @function definirCaras
+ * @summary Permite definir la superficie de enfrente y trasera de un objeto
+ * @param {THREE.Texture} frontal - La textura a definir en la parte de enfrente del objeto
+ * @param {THREE.Texture} trasera - La textura a definir en la parte trasera del objeto
+*/
+Elemento.prototype.definirCaras=function(frontal,trasera){
     this.textureLoader.load( frontal, function(texture1) {
         this.actualizarMaterialFrente(texture1);
         this.textureLoader.load(trasera, function(texture2) {
             this.actualizarMaterialAtras(texture2);
         }.bind(this));
     }.bind(this));
-
 }
 
 
+/**
+ * @function get
+ * @summary Permite definir el objeto THREE.Object3D del elemento
+ * @returns {THREE.Object3D}
+*/
 Elemento.prototype.get=function(){
     return this.elemento_raiz;
 }
 
+
+/**
+ * @function actualizarMedidas
+ * @summary Permite definir las dimensiones del elemento
+*/
 Elemento.prototype.actualizarMedidas=function(){
     this.width=this.width*this.elemento_raiz.scale.x;
     this.height=this.height*this.elemento_raiz.scale.y;
     this.cambiarUmbral(1);
 }
 
+
+/**
+ * @function scale
+ * @summary Permite escalar las medidas de un objeto
+ * @param {Double} x - Un valor con punto decimal el cual sirve para definir a que valor se tiene que escalar el elemento_raiz en X
+ * @param {Double} y - Un valor con punto decimal el cual sirve para definir a que valor se tiene que escalar el elemento_raiz en y
+*/
 Elemento.prototype.scale=function(x,y){
     this.elemento_raiz.scale.x=x;
     this.elemento_raiz.scale.y=y;
     this.actualizarMedidas();
 }
 
+/**
+ * @function position
+ * @summary Permite definir la posicion de un elemento
+*/
 Elemento.prototype.position=function(pos){
     for(var prop in pos){
         this.elemento_raiz.position[prop]=pos[prop]

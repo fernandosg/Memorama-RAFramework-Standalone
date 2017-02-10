@@ -37,8 +37,8 @@ Memorama.prototype.start=function(){
   var WebcamStream=require("./utils/webcamstream.js");
   var DetectorAR=require("./utils/detector");
   this.Elemento=require("./class/elemento.js");
-  var Observador=require("./utils/ManejadorEventos.js");
-  this.observador=new Observador();
+  var Mediador=require("./utils/Mediador.js");
+  this.mediador=new Mediador();
   this.webcam=new WebcamStream({"WIDTH":this.WIDTH_CANVAS,"HEIGHT":this.HEIGHT_CANVAS});
   this.renderer=new THREE.WebGLRenderer();
   this.renderer.autoClear = false;
@@ -146,7 +146,7 @@ Memorama.prototype.init=function(){
     //elemento.calculoOrigen();
     this.objetos.push(elemento);
     elemento.definirCaras("./assets/img/memorama/sin_voltear.jpg","./assets/img/memorama/"+this.tipo_memorama+"/cart"+fila_pos+"_"+cartas[this.tipo_memorama][fila_pos-1]+".jpg");
-    this.observador.suscribir("colision",this.objetos[this.objetos.length-1]);
+    this.mediador.suscribir("colision",this.objetos[this.objetos.length-1]);
     this.anadir(elemento.get());
     capa_elemento=document.createElement("div");
   }
@@ -180,7 +180,7 @@ Memorama.prototype.init=function(){
  * La función sera ejecutada por la instancia de ManejadorEventos.
  * Dentro de esta función es donde esta la logica tradicional de un juego de memorama
  * @param {boolean} esColisionado - Es una bandera, la cual traera el resultado si el marcador colisiono con algun objeto
- * @param {Three.Object3D} objeto_actual -
+ * @param {Elemento} objeto_actual -
 */
 Memorama.prototype.logicaMemorama=function(esColisionado,objeto_actual){
   if(esColisionado){
@@ -190,8 +190,8 @@ Memorama.prototype.logicaMemorama=function(esColisionado,objeto_actual){
       clasificarOpcion("memorama","acierto");
       this.indicador_acierto.easein(this.animacion);
       objeto_actual.voltear(this.animacion);
-      this.observador.baja("colision",objeto_actual);
-      this.observador.baja("colision",this.detectados[0]);
+      this.mediador.baja("colision",objeto_actual);
+      this.mediador.baja("colision",this.detectados[0]);
       document.getElementById("avances_memorama").innerHTML="Excelente, haz encontrado el par de la carta x";
       this.detectados=[];
     }else if(this.detectados.length==0){
@@ -216,7 +216,7 @@ Memorama.prototype.logicaMemorama=function(esColisionado,objeto_actual){
 Memorama.prototype.callbackMemorama=function(puntero){
   if(puntero.getWorldPosition().z>300 && puntero.getWorldPosition().z<=500){
     puntero.visible=true;
-    this.observador.disparar("colision",puntero,this.logicaMemorama,{stage:this});
+    this.mediador.disparar("colision",puntero,this.logicaMemorama,{stage:this});
   }
 }
 
@@ -231,9 +231,9 @@ Memorama.prototype.callbackMemorama=function(puntero){
 Memorama.prototype.logicaCalibracion=function(puntero){
   if(puntero.getWorldPosition().z>300 && puntero.getWorldPosition().z<=500){
     puntero.visible=true;
-    this.observador.dispararParticular("colision",this.objetos[this.pos_elegido],puntero,function(esColisionado,extras){
+    this.mediador.dispararParticular("colision",this.objetos[this.pos_elegido],puntero,function(esColisionado,extras){
       if(esColisionado){
-        extras["observador"].baja("colision",this.objetos[this.pos_elegido]);
+        extras["mediador"].baja("colision",this.objetos[this.pos_elegido]);
         this.pos_elegido++;
         document.getElementById("colorSelect").style.backgroundColor=this.colores[this.pos_elegido];
         if(this.pos_elegido==this.cantidad_cartas){
@@ -267,7 +267,7 @@ Memorama.prototype.inicioCalibarcion=function(){
     //elemento.calculoOrigen();
     this.objetos.push(elemento);
     elemento.definirBackground(this.colores[x-1]);
-    this.observador.suscribir("colision",this.objetos[this.objetos.length-1]);
+    this.mediador.suscribir("colision",this.objetos[this.objetos.length-1]);
     this.anadir(elemento.get());
   }
 }

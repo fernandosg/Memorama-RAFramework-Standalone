@@ -12,7 +12,6 @@
   * @param {integer} HEIGHT - El alto del canvas que se agregara al documento HTML
  */
 function Memorama(WIDTH,HEIGHT){
-  this.bloqueado=false;
   this.WIDTH_CANVAS=WIDTH;
   this.HEIGHT_CANVAS=HEIGHT;
   calibrar=false;
@@ -73,14 +72,6 @@ Memorama.prototype.start=function(){
   this.puntero.matrixAutoUpdate = false;
   this.puntero.visible=false;
   this.anadirMarcador({id:1,callback:this.logicaCalibracion,puntero:this.puntero});
-}
-
-Memorama.prototype.bloquear=function(){
-  this.bloqueado=false;
-}
-
-Memorama.prototype.desbloquear=function(){
-  this.bloqueado=true;
 }
 
 

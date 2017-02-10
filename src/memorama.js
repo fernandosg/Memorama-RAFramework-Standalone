@@ -60,7 +60,6 @@ Memorama.prototype.start=function(){
   this.videoEscena.initCamara();
   this.videoEscena.anadir(this.webcam.getElemento());
   this.detector_ar.setCameraMatrix(this.realidadEscena.getCamara());
-  calibracion_correcta=false;
   this.objetos=[];
   var mano_obj=new this.Elemento(60,60,new THREE.PlaneGeometry(60,60));
   mano_obj.init();

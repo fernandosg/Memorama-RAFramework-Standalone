@@ -63,17 +63,6 @@ Memorama.prototype.start=function(){
   this.detector_ar.setCameraMatrix(this.realidadEscena.getCamara());
   calibracion_correcta=false;
   this.objetos=[];
-  var Labels=require("./class/labels");
-  texto=Labels(250,250);
-  texto.init();
-  texto.definir({
-    color:'#ff0000',
-    alineacion:'center',
-    tiporafia:'200px Arial',
-    x:250/2,
-    y:250/2
-  });
-  this.label=texto.crear("HELLO WORLD");
   var mano_obj=new this.Elemento(60,60,new THREE.PlaneGeometry(60,60));
   mano_obj.init();
   mano_obj.etiqueta("Detector");
@@ -362,7 +351,6 @@ Memorama.prototype.loop=function(){
   this.detector_ar.detectMarker(this);
   for(var i=0;i<this.objetos.length;i++)
   this.objetos[i].actualizar();
-  this.label.material.map.needsUpdate=true;
   if(!pausado_kathia)
   animate();
   if(!this.detener_calibracion)

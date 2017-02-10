@@ -216,7 +216,7 @@ Memorama.prototype.logicaMemorama=function(esColisionado,objeto_actual){
 Memorama.prototype.callbackMemorama=function(puntero){
   if(puntero.getWorldPosition().z>300 && puntero.getWorldPosition().z<=500){
     puntero.visible=true;
-    this.mediador.disparar("colision",puntero,this.logicaMemorama,{stage:this});
+    this.mediador.comunicar("colision",puntero,this.logicaMemorama,{stage:this});
   }
 }
 
@@ -231,7 +231,7 @@ Memorama.prototype.callbackMemorama=function(puntero){
 Memorama.prototype.logicaCalibracion=function(puntero){
   if(puntero.getWorldPosition().z>300 && puntero.getWorldPosition().z<=500){
     puntero.visible=true;
-    this.mediador.dispararParticular("colision",this.objetos[this.pos_elegido],puntero,function(esColisionado,extras){
+    this.mediador.comunicarParticular("colision",this.objetos[this.pos_elegido],puntero,function(esColisionado,extras){
       if(esColisionado){
         extras["mediador"].baja("colision",this.objetos[this.pos_elegido]);
         this.pos_elegido++;

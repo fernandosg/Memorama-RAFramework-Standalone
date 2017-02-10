@@ -10,7 +10,7 @@ Mediador.prototype.suscribir=function(evento,objeto){
 	console.log("Suscribiendo");
 }
 
-Mediador.prototype.disparar=function(evento,objeto,callback,extras){
+Mediador.prototype.comunicar=function(evento,objeto,callback,extras){
 	if(!this.lista_eventos[evento]) return;
 	for(var i=0;i<this.lista_eventos[evento].length;i++){
 		objeto_action=this.lista_eventos[evento][i];
@@ -18,7 +18,7 @@ Mediador.prototype.disparar=function(evento,objeto,callback,extras){
 	}
 }
 
-Mediador.prototype.dispararParticular=function(evento,objeto,compara,callback){
+Mediador.prototype.comunicarParticular=function(evento,objeto,compara,callback){
 	if(!this.lista_eventos[evento]) return;
 	var pos=this.lista_eventos[evento].indexOf(objeto);
 	if(pos==-1) return;

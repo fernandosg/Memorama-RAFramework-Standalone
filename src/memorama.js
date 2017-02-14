@@ -293,8 +293,6 @@ Memorama.prototype.calibracion=function(){
       this.allowDetect(true);
     }
   }
-  if(this.detener_calibracion)
-  this.init();
   if(primera_ejecucion){
     primera_ejecucion=false;
     this.loop();

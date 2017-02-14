@@ -142,7 +142,7 @@ Memorama.prototype.init=function(){
   this.puntero.matrixAutoUpdate = false;
   this.puntero.visible=false;
   this.anadirMarcador({id:1,callback:this.callbackMemorama,puntero:this.puntero});
-  //CREACION DE KATHIA
+  //CREACION DE KATHIA, se utiliza la variable "kathia_renderer" de dist/js/libs/kathia/kathia.js
   document.getElementById("kathia").appendChild(kathia_renderer.view);
 
   //CREACION DE LA ETIQUETA DONDE SE ESCRIBE LA RESPUESTA DE KATHIA
@@ -150,7 +150,6 @@ Memorama.prototype.init=function(){
   iniciarKathia();
   clasificarOpcion("memorama","bienvenida");
   clasificarOpcion("memorama","instrucciones");
-  this.loop();
 }
 
 /**

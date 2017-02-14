@@ -147,7 +147,7 @@ Memorama.prototype.init=function(){
 
   //CREACION DE LA ETIQUETA DONDE SE ESCRIBE LA RESPUESTA DE KATHIA
 
-  iniciarKathia(texto);
+  iniciarKathia();
   clasificarOpcion("memorama","bienvenida");
   clasificarOpcion("memorama","instrucciones");
   this.loop();

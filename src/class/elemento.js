@@ -85,11 +85,11 @@ Elemento.prototype.cambiarVisible=function(){
 
 
 /**
- * @function defininrBackground
+ * @function definirSuperficiePorColor
  * @summary Permite definir la superficie del objeto con un color.
  * @param {THREE.Color} color - Una instancia de THREE.Color
 */
-Elemento.prototype.definirBackground=function(color){
+Elemento.prototype.definirSuperficiePorColor=function(color){
     color_t=new THREE.Color(color);
     this.material_frente=new THREE.MeshBasicMaterial({color: color_t,side: THREE.DoubleSide});
     this.mesh=new THREE.Mesh(this.geometry,this.material_frente);
@@ -98,11 +98,11 @@ Elemento.prototype.definirBackground=function(color){
 
 
 /**
- * @function definir
+ * @function definirSuperficiePorImagen
  * @summary Permite definir la superficie de un objeto a partir de un recurso grafico (una imagen)
  * @param {String} ruta - La ubicación como string del recurso grafico
 */
-Elemento.prototype.definir=function(ruta){
+Elemento.prototype.definirSuperficiePorImagen=function(ruta){
     this.textureLoader.load( ruta, function(texture) {
         this.actualizarMaterialFrente(texture);
     }.bind(this));

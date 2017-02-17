@@ -1,10 +1,28 @@
-module.exports=function(canvas_element){
+/**
+* @file DetectorAR
+* @author Fernando Segura Gómez, Twitter: @fsgdev
+* @version 0.1
+*/
+
+/**
+* Clase DetectorAR
+* @class
+* @constructor
+* @param {Canvas} WIDTH - Recibe el elemento canvas el cual se obtendra la información para detectar el marcador
+*/
+function DetectorAR(canvas_element){
   var JSARRaster,JSARParameters,detector,result;
   var markers_attach={};
   var threshold=120;
   var markers={};
   var DetectorMarker;
   var rootMarker,markermatrix;
+
+
+  /**
+  * @function init
+  * @summary Inicializa las dependencias y variables necesarias.
+  */
   function init(){
     JSARRaster = new NyARRgbRaster_Canvas2D(canvas_element);
     DetectorMarker=require("./detectormarker.js");
@@ -28,10 +46,21 @@ module.exports=function(canvas_element){
     }
   }
 
+
+  /**
+  * @function setCameraMatrix
+  * @summary Inicializa las dependencias y variables necesarias.
+  * @param {THREE.Camera} realidadCamera - Recibe la cámara que observa los objetos que usaara JSArtoolkit como punteros.
+  */
   var setCameraMatrix=function(realidadCamera){
     realidadCamera.projectionMatrix.setFromArray(result);
   }
 
+  /**
+  * @function getMarkerNumber
+  * @summary Obtiene el número de marcador
+  * @param {Integer} idx - Recibe el id del marcador.
+  */
   function getMarkerNumber(idx) {
     var data = detector.getIdMarkerData(idx);
     if (data.packetLength > 4) {
@@ -46,6 +75,12 @@ module.exports=function(canvas_element){
     return result;
   }
 
+
+  /**
+  * @function getTransformMatrix
+  * @summary Obtiene el número de marcador
+  * @param {Integer} idx - Recibe el id del marcador.
+  */
   function getTransformMatrix(idx) {
     var mat = new NyARTransMatResult();
     detector.getTransformMatrix(idx, mat);
@@ -71,6 +106,12 @@ module.exports=function(canvas_element){
     return cm;
   }
 
+
+  /**
+  * @function obtenerMarcador
+  * @summary Obtiene el número de marcador
+  * @param {Integer} idx - Recibe el id del marcador.
+  */
   function obtenerMarcador(markerCount,pos){
     var matriz_encontrada
     for(var i=0;i<markerCount;i++){
@@ -82,10 +123,22 @@ module.exports=function(canvas_element){
     return matriz_encontrada;
   }
 
+
+  /**
+  * @function isAttached
+  * @summary Obtiene el número de marcador
+  * @param {Integer} idx - Recibe el id del marcador.
+  */
   function isAttached(id){
     return markers_attach[id]!=undefined;
   }
 
+
+  /**
+  * @function detectMarker
+  * @summary Obtiene el número de marcador
+  * @param {Integer} idx - Recibe el id del marcador.
+  */
   var detectMarker=function(stage){
     var markerCount = detector.detectMarkerLite(JSARRaster, threshold);
     var marker;
@@ -117,7 +170,12 @@ module.exports=function(canvas_element){
     return false;
   }
 
-  //Attached two or more markers with the last marker added
+
+  /**
+  * @function attach
+  * @summary Obtiene el número de marcador
+  * @param {Integer} idx - Recibe el id del marcador.
+  */
   var attach=function(markers_to_attach){
     var marker_list=Object.keys(markers);
     if(marker_list.length>0)
@@ -129,15 +187,33 @@ module.exports=function(canvas_element){
     }
   }
 
+
+  /**
+  * @function addMarker
+  * @summary Obtiene el número de marcador
+  * @param {Integer} idx - Recibe el id del marcador.
+  */
   var addMarker=function(marker){
     markers[marker.id]=new DetectorMarker(marker.id,marker.callback,marker.puntero);
     return this;
   }
 
+
+  /**
+  * @function cleanMarkers
+  * @summary Obtiene el número de marcador
+  * @param {Integer} idx - Recibe el id del marcador.
+  */
   var cleanMarkers=function(){
     markers={};
   }
 
+
+  /**
+  * @function cambiarThreshold
+  * @summary Obtiene el número de marcador
+  * @param {Integer} idx - Recibe el id del marcador.
+  */
   var cambiarThreshold=function(threshold_nuevo){
     threshold=threshold_nuevo;
   }
@@ -153,3 +229,5 @@ module.exports=function(canvas_element){
     cleanMarkers:cleanMarkers
   }
 }
+
+module.exports=DetectorAR;

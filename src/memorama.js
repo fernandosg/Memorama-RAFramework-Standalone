@@ -34,7 +34,7 @@ Memorama.prototype.start=function(){
   var Animacion=require('./utils/animacion.js');
   var Escenario=require("./class/escenario.js");
   var WebcamStream=require("./utils/webcamstream.js");
-  var DetectorAR=require("./utils/detector");
+  var DetectorAR=require("./utils/detector_ar");
   this.Elemento=require("./class/elemento.js");
   var Mediador=require("./utils/Mediador.js");
   this.mediador=new Mediador();
@@ -63,8 +63,7 @@ Memorama.prototype.start=function(){
   this.objetos=[];
   var mano_obj=new this.Elemento(60,60,new THREE.PlaneGeometry(60,60));
   mano_obj.init();
-  mano_obj.etiqueta("Detector");
-  mano_obj.definir("../../assets/img/mano_escala.png",mano_obj);
+  mano_obj.definirSuperficiePorImagen("../../assets/img/mano_escala.png");
   this.puntero=new THREE.Object3D();
   this.puntero.add(mano_obj.get());
   this.puntero.position.z=-1;
@@ -93,22 +92,22 @@ Memorama.prototype.init=function(){
   var descripcion="El objetivo de este ejercicio, es tocar los pares de cada carta.<br>No te preocupes si no logras en el primer intento, puedes seguir jugando hasta seleccionar cada uno de los pares<br><br>";
   document.getElementById("informacion_nivel").innerHTML=mensaje+descripcion;
   document.getElementById("informacion_calibrar").style="display:none";
-  var avances=document.createElement("id");
-  avances.id="avances_memorama";
-  document.getElementById("informacion_nivel").appendChild(avances);
+  var avances=document.createElement("id"); // ELIMINAR
+  avances.id="avances_memorama"; // ELIMINAR
+  document.getElementById("informacion_nivel").appendChild(avances); // ELIMINAR
   this.detectados=[];
   this.objetos=[];
   // CREACION DEL ELEMENTO ACIERTO (LA IMAGEN DE LA ESTRELLA)
   this.indicador_acierto=new this.Elemento(500,500,new THREE.PlaneGeometry(500,500));
   this.indicador_acierto.init();
-  this.indicador_acierto.definir("./assets/img/scale/star.png",this.indicador_acierto);
+  this.indicador_acierto.definirSuperficiePorImagen("./assets/img/scale/star.png",this.indicador_acierto);
   this.indicador_acierto.position({x:0,y:0,z:-2500});
   this.anadir(this.indicador_acierto.get());
 
   // CREACION DEL ELEMENTO ERROR (LA IMAGEN DE LA X)
   this.indicador_error=new this.Elemento(500,500,new THREE.PlaneGeometry(500,500));
   this.indicador_error.init();
-  this.indicador_error.definir("./assets/img/scale/error.png",this.indicador_error);
+  this.indicador_error.definirSuperficiePorImagen("./assets/img/scale/error.png",this.indicador_error);
   this.indicador_error.position({x:0,y:0,z:-2500});
   this.anadir(this.indicador_error.get());
 
@@ -134,8 +133,7 @@ Memorama.prototype.init=function(){
 
   var mano_obj=new this.Elemento(60,60,new THREE.PlaneGeometry(60,60));
   mano_obj.init();
-  mano_obj.etiqueta("Detector");
-  mano_obj.definir("../../assets/img/mano_escala.png",mano_obj);
+  mano_obj.definirSuperficiePorImagen("../../assets/img/mano_escala.png",mano_obj);
   this.puntero=new THREE.Object3D();
   this.puntero.add(mano_obj.get());
   this.puntero.position.z=-1;
@@ -170,15 +168,15 @@ Memorama.prototype.logicaMemorama=function(esColisionado,objeto_actual){
       objeto_actual.voltear(this.animacion);
       this.mediador.baja("colision",objeto_actual);
       this.mediador.baja("colision",this.detectados[0]);
-      document.getElementById("avances_memorama").innerHTML="Excelente, haz encontrado el par de la carta x";
+      document.getElementById("avances_memorama").innerHTML="Excelente, haz encontrado el par de la carta x"; // ELIMINAR
       this.detectados=[];
     }else if(this.detectados.length==0){
       objeto_actual.voltear(this.animacion);
       this.detectados.push(objeto_actual);
-    }else if(this.detectados[0].get().id!=objeto_actual.get().id){
+    }else if(!this.detectados[0].esParDe(objeto_actual)){
       clasificarOpcion("memorama","fallo");
       this.indicador_error.easein(this.animacion);
-      document.getElementById("avances_memorama").innerHTML="Al parecer te haz equivocado de par, no te preocupes, puedes seguir intentando con el par de x";
+      document.getElementById("avances_memorama").innerHTML="Al parecer te haz equivocado de par, no te preocupes, puedes seguir intentando con el par de x"; // ELIMINAR
       this.detectados[0].voltear(this.animacion);
       this.detectados.pop();
     }
@@ -244,7 +242,7 @@ Memorama.prototype.inicioCalibracion=function(){
     elemento.position({x:pos_x,y:pos_y,z:-600});
     //elemento.calculoOrigen();
     this.objetos.push(elemento);
-    elemento.definirBackground(this.colores[x-1]);
+    elemento.definirSuperficiePorColor(this.colores[x-1]);
     this.mediador.suscribir("colision",this.objetos[this.objetos.length-1]);
     this.anadir(elemento.get());
   }

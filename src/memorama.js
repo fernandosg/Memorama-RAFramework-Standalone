@@ -220,8 +220,8 @@ Memorama.prototype.logicaCalibracion=function(puntero){
 * @summary Crea todos los elementos dibujados en el canvas,donde cada elemento tiene un color especifico
 */
 Memorama.prototype.inicioCalibracion=function(){
-  threshold_total=0;
-  threshold_conteo=0;
+  var threshold_total=0;
+  var threshold_conteo=0;
   for(var i=0;i<300;i++){
     this.detector_ar.cambiarThreshold(i);
     if(this.detector_ar.detectMarker(this)){

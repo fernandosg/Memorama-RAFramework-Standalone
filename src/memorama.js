@@ -203,13 +203,13 @@ Memorama.prototype.logicaCalibracion=function(puntero){
       if(esColisionado){
         extras["mediador"].baja("colision",this.objetos[this.pos_elegido]);
         this.pos_elegido++;
-        document.getElementById("colorSelect").style.backgroundColor=this.colores[this.pos_elegido];
         if(this.pos_elegido==this.cantidad_cartas){
           this.puntos_encontrados=true;
           this.detener_calibracion=true;
           this.limpiar();
           this.init();
-        }
+        }else
+          document.getElementById("colorSelect").style.backgroundColor=this.colores[this.pos_elegido];
       }
     }.bind(this));//*/
   }

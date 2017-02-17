@@ -1,16 +1,16 @@
 /**
- * @file Nivel Memorama
- * @author Fernando Segura Gómez, Twitter: @fsgdev
- * @version 0.1
- */
+* @file Nivel Memorama
+* @author Fernando Segura Gómez, Twitter: @fsgdev
+* @version 0.1
+*/
 
- /**
-  * Clase Memorama
-  * @class
-  * @constructor
-  * @param {integer} WIDTH - El ancho del canvas que se agregara al documento HTML
-  * @param {integer} HEIGHT - El alto del canvas que se agregara al documento HTML
- */
+/**
+* Clase Memorama
+* @class
+* @constructor
+* @param {integer} WIDTH - El ancho del canvas que se agregara al documento HTML
+* @param {integer} HEIGHT - El alto del canvas que se agregara al documento HTML
+*/
 function Memorama(WIDTH,HEIGHT){
   this.WIDTH_CANVAS=WIDTH;
   this.HEIGHT_CANVAS=HEIGHT;
@@ -27,8 +27,8 @@ function Memorama(WIDTH,HEIGHT){
 
 
 /**
- * @function start
- * @summary Permite inicializar todas las dependencias iniciales que ocupara la aplicación, incluyendo las clases para crear elementos,escenarios,planos, y la detección de la webcam
+* @function start
+* @summary Permite inicializar todas las dependencias iniciales que ocupara la aplicación, incluyendo las clases para crear elementos,escenarios,planos, y la detección de la webcam
 */
 Memorama.prototype.start=function(){
   var Animacion=require('./utils/animacion.js');
@@ -60,31 +60,21 @@ Memorama.prototype.start=function(){
   this.videoEscena.initCamara();
   this.videoEscena.anadir(this.webcam.getElemento());
   this.detector_ar.setCameraMatrix(this.realidadEscena.getCamara());
-  this.objetos=[];
-  var mano_obj=new this.Elemento(60,60,new THREE.PlaneGeometry(60,60));
-  mano_obj.init();
-  mano_obj.definirSuperficiePorImagen("../../assets/img/mano_escala.png");
-  this.puntero=new THREE.Object3D();
-  this.puntero.add(mano_obj.get());
-  this.puntero.position.z=-1;
-  this.puntero.matrixAutoUpdate = false;
-  this.puntero.visible=false;
-  this.anadirMarcador({id:1,callback:this.logicaCalibracion,puntero:this.puntero});
 }
 
 
 /**
- * @function anadir
- * @summary Permite añadir un elemento al escenario visible en el canvas.
- * @param {THREE.Object3D} obj - Una instancia de THREE.Object3D a agregar a escena
+* @function anadir
+* @summary Permite añadir un elemento al escenario visible en el canvas.
+* @param {THREE.Object3D} obj - Una instancia de THREE.Object3D a agregar a escena
 */
 Memorama.prototype.anadir=function(obj){
   this.planoEscena.anadir(obj);
 }
 
 /**
- * @function init
- * @summary Esta función ejecuta el nivel de Memorama. En la aplicación esta funcion se ejecuta despues de calibrar la cámara.
+* @function init
+* @summary Esta función ejecuta el nivel de Memorama. En la aplicación esta funcion se ejecuta despues de calibrar la cámara.
 */
 Memorama.prototype.init=function(){
   this.tipo_memorama="animales";
@@ -151,12 +141,12 @@ Memorama.prototype.init=function(){
 }
 
 /**
- * @function logicaMemorama
- * @summary Esta función se ejecutara una vez que algún objeto haya colisionado con el marcador.
- * La función sera ejecutada por la instancia de ManejadorEventos.
- * Dentro de esta función es donde esta la logica tradicional de un juego de memorama
- * @param {boolean} esColisionado - Es una bandera, la cual traera el resultado si el marcador colisiono con algun objeto
- * @param {Elemento} objeto_actual -
+* @function logicaMemorama
+* @summary Esta función se ejecutara una vez que algún objeto haya colisionado con el marcador.
+* La función sera ejecutada por la instancia de ManejadorEventos.
+* Dentro de esta función es donde esta la logica tradicional de un juego de memorama
+* @param {boolean} esColisionado - Es una bandera, la cual traera el resultado si el marcador colisiono con algun objeto
+* @param {Elemento} objeto_actual -
 */
 Memorama.prototype.logicaMemorama=function(esColisionado,objeto_actual){
   if(esColisionado){
@@ -184,10 +174,10 @@ Memorama.prototype.logicaMemorama=function(esColisionado,objeto_actual){
 }
 
 /**
- * @function callbackMemorama
- * @summary Esta funcion sirve como callback una vez que el detector de marcadores, haya detectado un marcador.
- * Una vez detectado el marcador, se ejecutara y dentro se identificara si cumple con las condiciones de profunidad
- * @param {THREE.Object3D} puntero - Es el objeto que la instancia de DetectorAR, traspuso la posición del marcador
+* @function callbackMemorama
+* @summary Esta funcion sirve como callback una vez que el detector de marcadores, haya detectado un marcador.
+* Una vez detectado el marcador, se ejecutara y dentro se identificara si cumple con las condiciones de profunidad
+* @param {THREE.Object3D} puntero - Es el objeto que la instancia de DetectorAR, traspuso la posición del marcador
 */
 Memorama.prototype.callbackMemorama=function(puntero){
   if(puntero.getWorldPosition().z>300 && puntero.getWorldPosition().z<=500){
@@ -197,12 +187,12 @@ Memorama.prototype.callbackMemorama=function(puntero){
 }
 
 /**
- * @function logicaCalibracion
- * @summary Esta funcion sirve como callback una vez que el detector de marcadores, haya detectado un marcador.
- * A su vez, dentro de la misma esta la lógica de la etapa de Calibracion.
- * La etapa de calibración es un proceso donde a partir de un orden de colores, debes de seleccionar cada color, dependiendo de el orden indicado.
- * La misma funcion identifica si ya se detectaron todos los elementos de prueba, inicia el nivel de Memorama
- * @param {THREE.Object3D} puntero - Es el objeto que la instancia de DetectorAR, traspuso la posición del marcador
+* @function logicaCalibracion
+* @summary Esta funcion sirve como callback una vez que el detector de marcadores, haya detectado un marcador.
+* A su vez, dentro de la misma esta la lógica de la etapa de Calibracion.
+* La etapa de calibración es un proceso donde a partir de un orden de colores, debes de seleccionar cada color, dependiendo de el orden indicado.
+* La misma funcion identifica si ya se detectaron todos los elementos de prueba, inicia el nivel de Memorama
+* @param {THREE.Object3D} puntero - Es el objeto que la instancia de DetectorAR, traspuso la posición del marcador
 */
 Memorama.prototype.logicaCalibracion=function(puntero){
   if(puntero.getWorldPosition().z>300 && puntero.getWorldPosition().z<=500){
@@ -224,85 +214,87 @@ Memorama.prototype.logicaCalibracion=function(puntero){
 }
 
 /**
- * @function inicioCalibracion
- * @summary Crea todos los elementos dibujados en el canvas,donde cada elemento tiene un color especifico
+* @function inicioCalibracion
+* @summary Crea todos los elementos dibujados en el canvas,donde cada elemento tiene un color especifico
 */
 Memorama.prototype.inicioCalibracion=function(){
-  this.objetos=[];
-  this.colores=["rgb(34, 208, 6)","rgb(25, 11, 228)","rgb(244, 6, 6)","rgb(244, 232, 6)"];
-  document.getElementById("colorSelect").style.backgroundColor=this.colores[this.pos_elegido];
-  //CREACION DE OBJETOS A SELECCIONAR PARA CALIBRAR
-  limite_renglon=Math.floor(this.cantidad_cartas/2)+1;
-  tamano_elemento=80;
-  margenes_espacio=(this.WIDTH_CANVAS-(tamano_elemento*limite_renglon))/limite_renglon;
-  for(var x=1,cont_fila=1,pos_y=-100,fila_pos=x,pos_x=-200;x<=this.cantidad_cartas;x++,pos_y=((fila_pos>=limite_renglon-1) ? pos_y+120+50 : pos_y) ,fila_pos=((fila_pos>=limite_renglon-1) ? 1 : fila_pos+1),pos_x=(fila_pos==1 ? -200 : (pos_x+margenes_espacio+tamano_elemento))){
-    var elemento=new this.Elemento(tamano_elemento,tamano_elemento,new THREE.PlaneGeometry(tamano_elemento,tamano_elemento));
-    elemento.init();
-    elemento.etiqueta(this.colores[x-1]);
-    elemento.position({x:pos_x,y:pos_y,z:-600});
-    //elemento.calculoOrigen();
-    this.objetos.push(elemento);
-    elemento.definirSuperficiePorColor(this.colores[x-1]);
-    this.mediador.suscribir("colision",this.objetos[this.objetos.length-1]);
-    this.anadir(elemento.get());
+  threshold_total=0;
+  threshold_conteo=0;
+  for(var i=0;i<300;i++){
+    this.detector_ar.cambiarThreshold(i);
+    if(this.detector_ar.detectMarker(this)){
+      threshold_total+=i;
+      threshold_conteo++;
+    }
+  }
+  if(threshold_conteo>0){
+    threshold_total=threshold_total/threshold_conteo;
+    this.detector_ar.cambiarThreshold(threshold_total);
+    calibracion_correcta=true;
+    threshold_conteo=0;
+    threshold_total=0;
+  }
+  calibrar=false;
+  if(calibracion_correcta && !puntos_encontrados){
+    this.allowDetect(true);
+    this.colores=["rgb(34, 208, 6)","rgb(25, 11, 228)","rgb(244, 6, 6)","rgb(244, 232, 6)"];
+    document.getElementById("colorSelect").style.backgroundColor=this.colores[this.pos_elegido];
+    //CREACION DE OBJETOS A SELECCIONAR PARA CALIBRAR
+    limite_renglon=Math.floor(this.cantidad_cartas/2)+1;
+    tamano_elemento=80;
+    margenes_espacio=(this.WIDTH_CANVAS-(tamano_elemento*limite_renglon))/limite_renglon;
+    for(var x=1,cont_fila=1,pos_y=-100,fila_pos=x,pos_x=-200;x<=this.cantidad_cartas;x++,pos_y=((fila_pos>=limite_renglon-1) ? pos_y+120+50 : pos_y) ,fila_pos=((fila_pos>=limite_renglon-1) ? 1 : fila_pos+1),pos_x=(fila_pos==1 ? -200 : (pos_x+margenes_espacio+tamano_elemento))){
+      var elemento=new this.Elemento(tamano_elemento,tamano_elemento,new THREE.PlaneGeometry(tamano_elemento,tamano_elemento));
+      elemento.init();
+      elemento.etiqueta(this.colores[x-1]);
+      elemento.position({x:pos_x,y:pos_y,z:-600});
+      //elemento.calculoOrigen();
+      this.objetos.push(elemento);
+      elemento.definirSuperficiePorColor(this.colores[x-1]);
+      this.mediador.suscribir("colision",this.objetos[this.objetos.length-1]);
+      this.anadir(elemento.get());
+    }
   }
 }
 
 /**
- * @function limpiar
- * @summary Ejecuta la funcion limpiar de planoEscena, realidadEscena, donde en cada una, elimina todos los objetos dibujados y agregados a escena.
- * Tambien elimina todos los marcadores agregados a detectar.
+* @function limpiar
+* @summary Ejecuta la funcion limpiar de planoEscena, realidadEscena, donde en cada una, elimina todos los objetos dibujados y agregados a escena.
+* Tambien elimina todos los marcadores agregados a detectar.
 */
 Memorama.prototype.limpiar=function(){
-	this.planoEscena.limpiar();
-	this.realidadEscena.limpiar();
-	this.detector_ar.cleanMarkers();
+  this.planoEscena.limpiar();
+  this.realidadEscena.limpiar();
+  this.detector_ar.cleanMarkers();
 }
 
 /**
- * @function calibracion
- * @summary Inicia el proceso de calibración.
- * JSArtoolkit permite definir un umbral para identificar de una mejor manera un marcador por medio de la cámara web.
- * Bajo cierto ambiente de iluminación un umbral mayor o menor repercute en la detección del marcador.
- * Como el ambiente no es posible controlarlo, ni poder definir un umbral que sea adecuado para todo tipo de iluminación, se creo esta función.
- * Esta función recorre de 0 a 299, para evaluar si el umbral (el puntero en ese ciclo) es el adecuado para la detección del marcador
+* @function calibracion
+* @summary Inicia el nivel de calibracion.
+* Crea el puntero (un objeto THREE.Object3D) para reemplazar en la posición del marcador detectado por DetectorAR(JSArtoolkit).
+* Dentro de este método ejecuta la función loop.
 */
 Memorama.prototype.calibracion=function(){
-  if(calibrar){
-    threshold_total=0;
-    threshold_conteo=0;
-    for(var i=0;i<300;i++){
-      this.detector_ar.cambiarThreshold(i);
-      if(this.detector_ar.detectMarker(this)){
-        threshold_total+=i;
-        threshold_conteo++;
-      }
-    }
-    if(threshold_conteo>0){
-      threshold_total=threshold_total/threshold_conteo;
-      this.detector_ar.cambiarThreshold(threshold_total);
-      calibracion_correcta=true;
-      threshold_conteo=0;
-      threshold_total=0;
-    }
-    calibrar=false;
-    if(calibracion_correcta && !puntos_encontrados){
-      this.allowDetect(true);
-    }
-  }
-  if(primera_ejecucion){
-    primera_ejecucion=false;
-    this.loop();
-  }
+  this.objetos=[];
+  var mano_obj=new this.Elemento(60,60,new THREE.PlaneGeometry(60,60));
+  mano_obj.init();
+  mano_obj.definirSuperficiePorImagen("../../assets/img/mano_escala.png");
+  this.puntero=new THREE.Object3D();
+  this.puntero.add(mano_obj.get());
+  this.puntero.position.z=-1;
+  this.puntero.matrixAutoUpdate = false;
+  this.puntero.visible=false;
+  this.anadirMarcador({id:1,callback:this.logicaCalibracion,puntero:this.puntero});
+  this.loop();
 }
 
 /**
- * @function anadirMarcador
- * @summary Agrega un marcador a la instancia de DetectorAR, donde una vez que se identifique el marcador se ejecutara el callback especificado
- * @param {Object} marcador - Un objeto con 3 propiedades
- * 1) id (integer - es el identificador que ocupa JSArtoolkit para un marcador especifico),
- * 2) callback (function - es la función a ejecutar una vez que el marcador se haya detectado),
- * 3) puntero (THREE.Object3D - es el objeto el cual tendra la posicion del marcador detectado)
+* @function anadirMarcador
+* @summary Agrega un marcador a la instancia de DetectorAR, donde una vez que se identifique el marcador se ejecutara el callback especificado
+* @param {Object} marcador - Un objeto con 3 propiedades
+* 1) id (integer - es el identificador que ocupa JSArtoolkit para un marcador especifico),
+* 2) callback (function - es la función a ejecutar una vez que el marcador se haya detectado),
+* 3) puntero (THREE.Object3D - es el objeto el cual tendra la posicion del marcador detectado)
 */
 Memorama.prototype.anadirMarcador=function(marcador){
   this.detector_ar.addMarker.call(this,marcador);
@@ -313,8 +305,8 @@ Memorama.prototype.anadirMarcador=function(marcador){
 
 
 /**
- * @function allowDetect
- * @param {boolean} bool
+* @function allowDetect
+* @param {boolean} bool
 */
 Memorama.prototype.allowDetect=function(bool){
   this.detecting_marker=bool;
@@ -322,9 +314,9 @@ Memorama.prototype.allowDetect=function(bool){
 
 
 /**
- * @function loop
- * @summary Esta función se estara ejecutando finitamente hasta que se cierre la aplicación.
- * Se encargara del redibujo de todos los elementos agregados a escena y la actualización del canvas con la transmisión de la webcam.
+* @function loop
+* @summary Esta función se estara ejecutando finitamente hasta que se cierre la aplicación.
+* Se encargara del redibujo de todos los elementos agregados a escena y la actualización del canvas con la transmisión de la webcam.
 */
 Memorama.prototype.loop=function(){
   this.renderer.clear();
@@ -338,8 +330,6 @@ Memorama.prototype.loop=function(){
   this.objetos[i].actualizar();
   if(!pausado_kathia)
   animate();
-  if(!this.detener_calibracion)
-  this.calibracion();
   requestAnimationFrame(this.loop.bind(this));
 }
 

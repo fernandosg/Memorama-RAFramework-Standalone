@@ -237,7 +237,7 @@ Memorama.prototype.inicioCalibracion=function(){
     threshold_total=0;
   }
   calibrar=false;
-  if(calibracion_correcta && !puntos_encontrados){
+  if(calibracion_correcta){
     this.allowDetect(true);
     this.colores=["rgb(34, 208, 6)","rgb(25, 11, 228)","rgb(244, 6, 6)","rgb(244, 232, 6)"];
     document.getElementById("colorSelect").style.backgroundColor=this.colores[this.pos_elegido];

@@ -19,8 +19,10 @@ function Memorama(WIDTH,HEIGHT){
   puntos_encontrados=false;
   primera_ejecucion=true;
   document.getElementById("calibrar").addEventListener("click",function(){
-    this.inicioCalibracion();
-    calibrar=true;
+    if(!calibrar){
+      this.inicioCalibracion();
+      calibrar=true;
+    }
   }.bind(this))
   this.pos_elegido=0;
 }

@@ -56,7 +56,6 @@ Elemento.prototype.iterateCalls=function(){
 /**
  * @function etiqueta
  * @summary Permite definir una etiqueta al objeto (es un string que identifica este de otros objetos)
- * @param {String} etiqueta - String representando la etiqueta del objeto.
 */
 Elemento.prototype.etiqueta=function(etiqueta){
     this.nombre=etiqueta
@@ -597,7 +596,7 @@ Memorama.prototype.init=function(){
   this.puntero.position.z=-1;
   this.puntero.matrixAutoUpdate = false;
   this.puntero.visible=false;
-  this.anadirMarcador({id:16,callback:this.callbackMemorama,puntero:this.puntero});
+  this.anadirMarcador({id:1,callback:this.callbackMemorama,puntero:this.puntero});
   //CREACION DE KATHIA, se utiliza la variable "kathia_renderer" de dist/js/libs/kathia/kathia.js
   document.getElementById("kathia").appendChild(kathia_renderer.view);
 
@@ -752,7 +751,7 @@ Memorama.prototype.calibracion=function(){
   this.puntero.position.z=-1;
   this.puntero.matrixAutoUpdate = false;
   this.puntero.visible=false;
-  this.anadirMarcador({id:16,callback:this.logicaCalibracion,puntero:this.puntero});
+  this.anadirMarcador({id:1,callback:this.logicaCalibracion,puntero:this.puntero});
   this.loop();
 }
 

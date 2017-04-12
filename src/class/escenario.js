@@ -1,7 +1,7 @@
 /**
  * @file Escenario
  * @author Fernando Segura Gómez, Twitter: @fsgdev
- * @version 0.1
+ * @version 0.2
  */
 
 /**

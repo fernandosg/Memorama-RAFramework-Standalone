@@ -55,6 +55,7 @@ Elemento.prototype.iterateCalls=function(){
 /**
  * @function etiqueta
  * @summary Permite definir una etiqueta al objeto (es un string que identifica este de otros objetos)
+ * @param {String} etiqueta - String representando la etiqueta del objeto.
 */
 Elemento.prototype.etiqueta=function(etiqueta){
     this.nombre=etiqueta

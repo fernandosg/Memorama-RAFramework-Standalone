@@ -711,14 +711,14 @@ Memorama.prototype.inicioCalibracion=function(){
     limite_renglon=Math.floor(this.cantidad_cartas/2)+1;
     tamano_elemento=80;
     margenes_espacio=(this.WIDTH_CANVAS-(tamano_elemento*limite_renglon))/limite_renglon;
-    for(var x=1,pos_y=-100,fila_pos=x,pos_x=-200;x<=this.cantidad_cartas;x++,pos_y=((fila_pos>=limite_renglon-1) ? pos_y+120+50 : pos_y) ,fila_pos=((fila_pos>=limite_renglon-1) ? 1 : fila_pos+1),pos_x=(fila_pos==1 ? -200 : (pos_x+margenes_espacio+tamano_elemento))){
+    for(var i=1,pos_y=-100,fila_pos=i,pos_x=-200;i<=this.cantidad_cartas;i++,pos_y=((i%2!=0) ? pos_y+130 : pos_y) ,fila_pos=((fila_pos>=limite_renglon-1) ? 1 : fila_pos+1),pos_x=(i%2==0 ? 200 : -200)){
       var elemento=new this.Elemento(tamano_elemento,tamano_elemento,new THREE.PlaneGeometry(tamano_elemento,tamano_elemento));
       elemento.init();
-      elemento.etiqueta(this.colores[x-1]);
+      elemento.etiqueta(this.colores[i-1]);
       elemento.position({x:pos_x,y:pos_y,z:-600});
       //elemento.calculoOrigen();
       this.objetos.push(elemento);
-      elemento.definirSuperficiePorColor(this.colores[x-1]);
+      elemento.definirSuperficiePorColor(this.colores[i-1]);
       this.mediador.suscribir("colision",this.objetos[this.objetos.length-1]);
       this.anadir(elemento.get());
     }
@@ -1207,14 +1207,14 @@ function WebcamStream(configuracion){
   this.canvas.height=configuracion["HEIGHT"];
   this.ctx=this.canvas.getContext("2d");
   this.video=new THREEx.WebcamTexture(configuracion["WIDTH"],configuracion["HEIGHT"]);
-  var textura=new THREE.Texture(this.canvas);
+  var textura=this.video.texture;
   textura.minFilter = THREE.LinearFilter;
   textura.magFilter = THREE.LinearFilter;
-  var material = new THREE.MeshBasicMaterial( { map: textura, depthTest: false, depthWrite: false} );//new THREE.MeshBasicMaterial( { map: textura, overdraw: true, side:THREE.DoubleSide } );     
+  var material = new THREE.MeshBasicMaterial( { map: textura, depthTest: false, depthWrite: false} );//new THREE.MeshBasicMaterial( { map: textura, overdraw: true, side:THREE.DoubleSide } );
   var geometria = new THREE.PlaneGeometry(2,2,0.0);
   this.elemento = new THREE.Mesh( geometria, material );
   this.elemento.scale.x=-1;
-  this.elemento.material.side = THREE.DoubleSide;  
+  this.elemento.material.side = THREE.DoubleSide;
 }
 
 WebcamStream.prototype.getElemento=function(){
@@ -1223,8 +1223,8 @@ WebcamStream.prototype.getElemento=function(){
 
 WebcamStream.prototype.update=function(web){
 	this.ctx.drawImage(this.video.video,0,0,this.canvas.width,this.canvas.height);
-    this.canvas.changed=true;        
-    this.elemento.material.map.needsUpdate=true;
+  this.canvas.changed=true;
+  this.elemento.material.map.needsUpdate=true;
 }
 
 WebcamStream.prototype.getCanvas=function(){
@@ -1232,4 +1232,5 @@ WebcamStream.prototype.getCanvas=function(){
 }
 
 module.exports=WebcamStream;
+
 },{}]},{},[1,2,3,7,8,9,6,10,11,4,5]);

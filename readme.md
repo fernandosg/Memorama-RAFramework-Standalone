@@ -1,4 +1,4 @@
-## Memorama RAFramework Standalone
+## Memorama RAWeb Standalone
 
 Este repositorio contiene el nivel de memorama por separado de mi proyecto RAWeb (un experimento para poder usar JSArtoolkit y ThreeJS para dinamicas con imagenes fiduciales).
 
